@@ -7,6 +7,8 @@ import {auth, db} from "@/firebase";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 import {ImSpinner2} from "react-icons/im";
+import {UserState} from "@/store/recoil/User";
+import {useSetRecoilState} from "recoil";
 
 const Login = () => {
 
@@ -14,12 +16,16 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [authing, setAuthing] = useState(false)
   const router = useRouter()
+  const setUser = useSetRecoilState(UserState)
 
   const userCollectionsRef = collection(db, 'users')
 
   useEffect(() => {
-    auth.onAuthStateChanged(function(user) {
+    auth.onAuthStateChanged(function (user) {
       if (user) {
+        setUser({
+          email: user.email
+        })
         setAuthing(true)
         router.push('/home')
       }
@@ -33,10 +39,13 @@ const Login = () => {
       const data = await getDocs(userCollectionsRef)
       const emails = data.docs.map((doc) => ({...doc.data()}))
       if (emails.find(email => email.email === user.email)) {
-         router.push('/home')
+        router.push('/home')
       } else {
         await setDoc(doc(db, 'users', user.uid), {id: user.uid, email: user.email})
       }
+      setUser({
+        email: user.email
+      })
     }).catch(error => {
       console.error(error)
       toast.error(error.message)
@@ -48,7 +57,10 @@ const Login = () => {
     event.preventDefault()
     signInWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
       const user = userCredential.user
-       router.push('/dashboard')
+      setUser({
+        email: user.email
+      })
+      router.push('/dashboard')
     }).catch((error) => {
       toast.error(error.message)
     })
@@ -62,7 +74,8 @@ const Login = () => {
         <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
           <div className="flex items-center justify-center w-full lg:p-12">
             <div className="flex items-center xl:p-10">
-              <form onSubmit={handleLogin} className="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl">
+              <form onSubmit={handleLogin}
+                    className="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl">
                 <h3 className="mb-3 text-4xl font-extrabold text-dark-gray-900">Iniciar sesion</h3>
                 <p className="mb-4 text-gray-700">Ingresa tu correo y contraseña</p>
                 <button
@@ -70,7 +83,7 @@ const Login = () => {
                   disabled={authing}
                   onClick={signInWithGoogle}
                   className="cursor-pointer flex items-center justify-center w-full py-4 mb-6  font-medium transition duration-300 rounded-2xl text-gray-900 bg-gray-300 hover:bg-gray-400 focus:ring-4 focus:ring-gray-300">
-                  {authing ? <ImSpinner2 className="animate-spin w-6 h-6 text-black" /> : <>
+                  {authing ? <ImSpinner2 className="animate-spin w-6 h-6 text-black"/> : <>
                     <FcGoogle className="mr-2 my-auto"/>
                     Iniciar con Google</>}
 
