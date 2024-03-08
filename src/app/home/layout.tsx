@@ -8,10 +8,14 @@ type HomeLayoutProps = {
 }
 const HomeLayout = ({children}:HomeLayoutProps) => {
   return (
-    <div className="w-screen h-screen bg-gray-200">
-      <SideBarWeb />
-      <NavBarMobile />
-      {children}
+    <div className="w-screen h-screen bg-gray-200 md:grid md:grid-cols-12">
+      <div className="md:col-span-2">
+        <SideBarWeb />
+        <NavBarMobile/>
+      </div>
+      <div className="md:col-span-10 px-2 md:px-4">
+        {children}
+      </div>
     </div>
   );
 }
