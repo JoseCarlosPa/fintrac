@@ -10,12 +10,15 @@ import {IoLogOutSharp} from "react-icons/io5";
 import {auth } from "@/firebase";
 import {signOut} from "@firebase/auth";
 import NavBarButton from "@/app/home/components/NavBarButton";
+import {useRouter} from "next/navigation";
 
 const SideBarWeb = () => {
   const userState = useRecoilValue(UserState)
+  const router = useRouter()
 
   const logOut = useCallback(()=>{
-    return signOut(auth)
+    signOut(auth)
+    return router.push('/login')
   },[auth])
 
   return (

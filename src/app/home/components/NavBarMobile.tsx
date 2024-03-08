@@ -11,13 +11,16 @@ import {auth} from "@/firebase";
 import {UserState} from "@/store/recoil/User";
 import {GiHamburgerMenu} from "react-icons/gi";
 import NavBarButton from "@/app/home/components/NavBarButton";
+import {useRouter} from "next/navigation";
 
 const NavBarMobile = () => {
 
   const userState = useRecoilValue(UserState)
+  const router = useRouter()
 
   const logOut = useCallback(()=>{
-    return signOut(auth)
+    signOut(auth)
+    return router.push('/login')
   },[auth])
 
   const [show, setShow] = React.useState(false)
