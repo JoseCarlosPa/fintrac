@@ -12,7 +12,7 @@ const Main  = () => {
           </p>
           <div className="flex justify-center">
             <a
-              className="inline-flex items-center px-5 py-3 mt-2 font-medium text-white transition duration-500 ease-in-out transform border rounded-lg md:bg-gray-900"
+              className="inline-flex items-center px-5 py-3 mt-2 font-medium text-white transition duration-500 ease-in-out transform border rounded-lg bg-gray-900"
               href="#"
             >
               <span className="justify-center">Leer mas</span>
@@ -38,7 +38,7 @@ const Main  = () => {
           <img
             className="object-cover object-center w-3/4 mb-10 g327 border rounded-lg shadow-md"
             alt="Placeholder Image"
-            src="/images/placeholder.jpg"
+            src="/images/placeholder.png"
           ></img>
         </div>
       </div>

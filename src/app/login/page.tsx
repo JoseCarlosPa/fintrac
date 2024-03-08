@@ -21,7 +21,7 @@ const Login = () => {
     auth.onAuthStateChanged(function(user) {
       if (user) {
         setAuthing(true)
-        router.push('/dashboard')
+        router.push('/home')
       }
     });
   }, [router]);
@@ -33,7 +33,7 @@ const Login = () => {
       const data = await getDocs(userCollectionsRef)
       const emails = data.docs.map((doc) => ({...doc.data()}))
       if (emails.find(email => email.email === user.email)) {
-         router.push('/dashboard')
+         router.push('/home')
       } else {
         await setDoc(doc(db, 'users', user.uid), {id: user.uid, email: user.email})
       }
