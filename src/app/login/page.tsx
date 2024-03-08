@@ -1,5 +1,5 @@
 "use client"
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {FcGoogle} from "react-icons/fc";
 import {GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword} from "firebase/auth";
 import {collection, doc, getDocs, setDoc} from "@firebase/firestore";
@@ -16,6 +16,15 @@ const Login = () => {
   const router = useRouter()
 
   const userCollectionsRef = collection(db, 'users')
+
+  useEffect(() => {
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        setAuthing(true)
+        router.push('/dashboard')
+      }
+    });
+  }, [router]);
 
   const signInWithGoogle = async () => {
     setAuthing(true)

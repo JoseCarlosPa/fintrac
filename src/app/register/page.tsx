@@ -1,5 +1,5 @@
 "use client"
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {ImSpinner2} from "react-icons/im";
 import {FcGoogle} from "react-icons/fc";
 import {GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword} from "firebase/auth";
@@ -9,7 +9,6 @@ import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 const Register = () => {
 
-
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -18,6 +17,15 @@ const Register = () => {
   const router = useRouter()
 
   const userCollectionsRef = collection(db, 'users')
+
+  useEffect(() => {
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        setAuthing(true)
+        router.push('/dashboard')
+      }
+    });
+  }, [router]);
 
   const signInWithGoogle = async () => {
     setAuthing(true)
@@ -39,6 +47,10 @@ const Register = () => {
 
   const handleRegister = useCallback((event:any) => {
     event.preventDefault()
+    if (password !== confirmPassword) {
+      toast.error('Las contraseñas no coinciden')
+      return
+    }
     createUserWithEmailAndPassword(auth,email,password).then(async (userCredential) => {
       const user = userCredential.user
       await setDoc(doc(db,'users',user.uid),{id: user.uid, email: user.email})
