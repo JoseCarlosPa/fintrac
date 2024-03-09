@@ -30,8 +30,8 @@ const NavBarMobile = ({email}:NavBarMobileProps) => {
   const [show, setShow] = React.useState(false)
 
   return (
-    <div className="mb-8 md:hidden">
-      <div className={`flex flex-row justify-between py-4 bg-white shadow-md ${!show && 'rounded-b-lg' }`}>
+    <div className="mb-8 md:hidden fixed w-full">
+      <div className={`flex flex-row justify-between pt-4 bg-white  ${!show && 'rounded-b-lg shadow-md pb-4' }`}>
         <div></div>
         <h1 className="px-4 text-4xl Avenir tracking-tighter text-gray-900 md:text-4x1 lg:text-3xl">
           FinTrac
@@ -46,9 +46,9 @@ const NavBarMobile = ({email}:NavBarMobileProps) => {
         <div className="py-1 bg-white rounded-b-lg shadow-lg w-full md:hidden">
           <div className="flex flex-col py-8">
             <NavBarButton onClick={()=>{}} icon={<HiOutlineSignal className="text-green-500 w-5 h-5 my-auto mr-2"/>} label={email} />
-            <NavBarButton onClick={()=>{}} icon={<FaChartPie className="my-auto w-4 h-4 mr-2 "/>} label={'Inicio'} />
+            <NavBarButton onClick={()=>{router.push('/home')}} icon={<FaChartPie className="my-auto w-4 h-4 mr-2 "/>} label={'Inicio'} />
             <NavBarButton onClick={()=>{}} icon={<IoIosToday className="my-auto w-4 h-4 mr-2 "/>} label={'Gastos del mes'} />
-            <NavBarButton onClick={()=>{}} icon={<FaCreditCard className="my-auto w-4 h-4 mr-2 "/>} label={'Mis tarjetas'} />
+            <NavBarButton onClick={()=>{router.push('/home/cards')}} icon={<FaCreditCard className="my-auto w-4 h-4 mr-2 "/>} label={'Mis tarjetas'} />
             <NavBarButton onClick={()=>{}} icon={<BsCashCoin className="my-auto w-4 h-4 mr-2 "/>} label={'Presupuestos'} />
             <NavBarButton onClick={()=>{}} icon={<FaChartBar className="my-auto w-4 h-4 mr-2 "/>} label={'Estadisticas'} />
             <NavBarButton onClick={()=>{}} icon={<BsTools className="my-auto w-4 h-4 mr-2 "/>} label={'Herramientas'} />

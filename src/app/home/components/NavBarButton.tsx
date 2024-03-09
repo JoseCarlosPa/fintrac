@@ -12,7 +12,7 @@ const NavBarButton = ({onClick,icon,label}:NavBarButtonProps) => {
       onClick={onClick}
       className="py-4 pl-4 flex flex-row hover:bg-gray-200 transition duration-300 hover:border-r-gray-600 hover:border-r-4">
       {icon}
-      <span className="text-xs">{label}</span>
+      <span className="text-xs my-auto">{label}</span>
     </button>
   );
 }

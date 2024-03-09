@@ -15,6 +15,7 @@ const CurrencyCard = ({currency, baseCurrency,setCurrencies}: CurrencyCardProps)
 
   const [value, setValue] = useState<number>(0)
 
+  // TODO: Change this logic into the home page
   const fetchCurrencies = async () => {
     getCurrencies(baseCurrency, currency).then((data) => {
       const curr = Object.keys(data.data)[0]

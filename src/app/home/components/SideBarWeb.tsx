@@ -26,15 +26,15 @@ const SideBarWeb = ({email}:SideBarWebProps) => {
   },[auth])
 
   return (
-    <nav className="h-screen bg-white rounded-r-lg shadow-lg hidden md:block">
+    <nav className="min-h-screen bg-white rounded-r-lg shadow-lg hidden md:block fixed w-56">
       <div className="flex flex-col py-8 ">
         <h1 className="px-4 text-4xl Avenir tracking-tighter text-gray-900 md:text-4x1 lg:text-3xl">
           FinTrac
         </h1>
         <NavBarButton onClick={()=>{}} icon={<HiOutlineSignal className="text-green-500 w-5 h-5 my-auto mr-2"/>} label={email} />
-        <NavBarButton onClick={()=>{}} icon={<FaChartPie className="my-auto w-4 h-4 mr-2 "/>} label={'Inicio'} />
+        <NavBarButton onClick={()=>{router.push('/home')}} icon={<FaChartPie className="my-auto w-4 h-4 mr-2 "/>} label={'Inicio'} />
         <NavBarButton onClick={()=>{}} icon={<IoIosToday className="my-auto w-4 h-4 mr-2 "/>} label={'Gastos del mes'} />
-        <NavBarButton onClick={()=>{}} icon={<FaCreditCard className="my-auto w-4 h-4 mr-2 "/>} label={'Mis tarjetas'} />
+        <NavBarButton onClick={()=>{router.push('/home/cards')}} icon={<FaCreditCard className="my-auto w-4 h-4 mr-2 "/>} label={'Mis tarjetas'} />
         <NavBarButton onClick={()=>{}} icon={<BsCashCoin className="my-auto w-4 h-4 mr-2 "/>} label={'Presupuestos'} />
         <NavBarButton onClick={()=>{}} icon={<FaChartBar className="my-auto w-4 h-4 mr-2 "/>} label={'Estadisticas'} />
         <NavBarButton onClick={()=>{}} icon={<BsTools className="my-auto w-4 h-4 mr-2 "/>} label={'Herramientas'} />
