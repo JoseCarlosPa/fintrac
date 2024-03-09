@@ -13,7 +13,7 @@ const HomeLayout = ({children}:HomeLayoutProps) => {
         <SideBarWeb />
         <NavBarMobile/>
       </div>
-      <div className="md:col-span-10 px-2 md:px-4">
+      <div className="md:col-span-10 px-2 md:px-8 px-4">
         {children}
       </div>
     </div>

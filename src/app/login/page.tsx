@@ -41,7 +41,7 @@ const Login = () => {
       if (emails.find(email => email.email === user.email)) {
         router.push('/home')
       } else {
-        await setDoc(doc(db, 'users', user.uid), {id: user.uid, email: user.email})
+        await setDoc(doc(db, 'users', user.uid), {id: user.uid, email: user.email,currencies: ['USD','CAD'],mainCurrency: 'MXN'})
       }
       setUser({
         email: user.email

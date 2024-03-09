@@ -36,7 +36,7 @@ const Register = () => {
       if (emails.find(email => email.email === user.email)) {
         router.push('/home')
       } else {
-        await setDoc(doc(db, 'users', user.uid), {id: user.uid, email: user.email, global_debt: 0, global_income: 0})
+        await setDoc(doc(db, 'users', user.uid), {id: user.uid, email: user.email, currencies: ['USD','CAD'],mainCurrency: 'MXN'})
       }
     }).catch(error => {
       console.error(error)
@@ -53,7 +53,7 @@ const Register = () => {
     }
     createUserWithEmailAndPassword(auth,email,password).then(async (userCredential) => {
       const user = userCredential.user
-      await setDoc(doc(db,'users',user.uid),{id: user.uid, email: user.email})
+      await setDoc(doc(db,'users',user.uid),{id: user.uid, email: user.email,currencies: ['USD','CAD'],mainCurrency: 'MXN'})
       router.push('/dashboard')
     }).catch((error)=>{
       console.error(error)
