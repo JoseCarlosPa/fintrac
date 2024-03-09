@@ -31,7 +31,7 @@ const SideBarWeb = ({email}:SideBarWebProps) => {
         <h1 className="px-4 text-4xl Avenir tracking-tighter text-gray-900 md:text-4x1 lg:text-3xl">
           FinTrac
         </h1>
-        <NavBarButton onClick={()=>{}} icon={<HiOutlineSignal className="text-green-500 w-5 h-5 my-auto mr-2"/>} label={email} />
+        <NavBarButton onClick={()=>{}} icon={<div className="bg-green-500 rounded-full w-2 h-2 my-auto mr-2"/>} label={email} />
         <NavBarButton onClick={()=>{router.push('/home')}} icon={<FaChartPie className="my-auto w-4 h-4 mr-2 "/>} label={'Inicio'} />
         <NavBarButton onClick={()=>{}} icon={<IoIosToday className="my-auto w-4 h-4 mr-2 "/>} label={'Gastos del mes'} />
         <NavBarButton onClick={()=>{router.push('/home/cards')}} icon={<FaCreditCard className="my-auto w-4 h-4 mr-2 "/>} label={'Mis tarjetas'} />
