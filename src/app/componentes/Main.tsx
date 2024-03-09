@@ -1,7 +1,7 @@
 import React from "react";
 const Main  = () => {
   return (
-    <section className="text-gray-600 body-font">
+    <div className="text-gray-600 body-font">
       <div className="max-w-7xl mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
         <div className="lg:flex-grow md:w-1/2 md:ml-24 pt-6 flex flex-col md:items-start md:text-left mb-40 items-center text-center">
           <h1 className="mb-5 sm:text-6xl text-5xl items-center Avenir xl:w-2/2 text-gray-900">
@@ -42,7 +42,7 @@ const Main  = () => {
           ></img>
         </div>
       </div>
-      <section className="relative">
+      <div className="relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
           <div className="py-24 md:py-36">
             <h1 className="mb-5 text-6xl Avenir font-semibold text-gray-900">
@@ -66,8 +66,8 @@ const Main  = () => {
             </a>
           </div>
         </div>
-      </section>
-    </section>
+      </div>
+    </div>
   );
 }
 

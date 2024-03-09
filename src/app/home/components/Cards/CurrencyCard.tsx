@@ -2,7 +2,7 @@
 import {useEffect, useState} from "react";
 import {getCurrencies} from "@/utils/endpoints/Currencies";
 import swal from "sweetalert2";
-import {auth, db} from "@/firebase";
+import { db,auth} from "@/firebase";
 import {doc, getDoc, updateDoc} from "firebase/firestore";
 import {toast} from "sonner";
 
@@ -36,26 +36,28 @@ const CurrencyCard = ({currency, baseCurrency,setCurrencies}: CurrencyCardProps)
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        const user = auth.currentUser;
-        if (user === null) return
-        const userInfo = getDoc(doc(db, "users", user.uid));
-        userInfo.then((document) => {
-          if (document.exists()) {
-            const data = document.data()
-            const userCurrencies = data?.currencies
-            const newCurrencies = userCurrencies.filter((c: string) => c !== baseCurrency)
-            updateDoc(doc(db, "users", user.uid), {
-              currencies: newCurrencies
-            }).then(() => {
-              setCurrencies(newCurrencies)
-              toast.success("Moneda eliminada")
-            }).catch((error) => {
-              toast.error("Error getting document:", error);
-            })
-          }
-        }).catch((error) => {
-          toast.error("Error getting document:", error);
+        auth.onAuthStateChanged((user) => {
+          if (user === null) return
+          const userInfo = getDoc(doc(db, "users", user.uid));
+          userInfo.then((document) => {
+            if (document.exists()) {
+              const data = document.data()
+              const userCurrencies = data?.currencies
+              const newCurrencies = userCurrencies.filter((c: string) => c !== baseCurrency)
+              updateDoc(doc(db, "users", user.uid), {
+                currencies: newCurrencies
+              }).then(() => {
+                setCurrencies(newCurrencies)
+                toast.success("Moneda eliminada")
+              }).catch((error) => {
+                toast.error("Error getting document:", error);
+              })
+            }
+          }).catch((error) => {
+            toast.error("Error getting document:", error);
+          })
         })
+
       }
     })
   }

@@ -12,7 +12,11 @@ import {signOut} from "@firebase/auth";
 import NavBarButton from "@/app/home/components/NavBarButton";
 import {useRouter} from "next/navigation";
 
-const SideBarWeb = () => {
+type SideBarWebProps = {
+  email?: string | null
+}
+
+const SideBarWeb = ({email}:SideBarWebProps) => {
   const userState = useRecoilValue(UserState)
   const router = useRouter()
 
@@ -27,7 +31,7 @@ const SideBarWeb = () => {
         <h1 className="px-4 text-4xl Avenir tracking-tighter text-gray-900 md:text-4x1 lg:text-3xl">
           FinTrac
         </h1>
-        <NavBarButton onClick={()=>{}} icon={<HiOutlineSignal className="text-green-500 w-5 h-5 my-auto mr-2"/>} label={'USER'} />
+        <NavBarButton onClick={()=>{}} icon={<HiOutlineSignal className="text-green-500 w-5 h-5 my-auto mr-2"/>} label={email} />
         <NavBarButton onClick={()=>{}} icon={<FaChartPie className="my-auto w-4 h-4 mr-2 "/>} label={'Inicio'} />
         <NavBarButton onClick={()=>{}} icon={<IoIosToday className="my-auto w-4 h-4 mr-2 "/>} label={'Gastos del mes'} />
         <NavBarButton onClick={()=>{}} icon={<FaCreditCard className="my-auto w-4 h-4 mr-2 "/>} label={'Mis tarjetas'} />

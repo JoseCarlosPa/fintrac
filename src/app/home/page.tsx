@@ -5,10 +5,11 @@ import VerticalBarChart from "@/app/home/components/Charts/VerticalBarChart";
 import PieChart from "@/app/home/components/Charts/PieChart";
 import React, {useEffect, useState} from "react";
 import {doc, getDoc, updateDoc} from "firebase/firestore";
-import {db, auth} from "@/firebase";
+import {db,auth} from "@/firebase";
 import {toast} from "sonner";
 import swal from "sweetalert2";
 import {currenciesValues} from "@/store/currencies";
+import {getAuth} from "firebase/auth";
 
 const Home = () => {
 
@@ -17,24 +18,26 @@ const Home = () => {
   const [loading, setLoading] = useState(true)
 
   const getCurrency = async () => {
-    const user = auth.currentUser;
-    if (user === null) return
-    const userInfo = getDoc(doc(db, "users", user.uid));
-    userInfo.then((doc) => {
-      if (doc.exists()) {
-        const data = doc.data()
-        const userCurrencies = data?.currencies
-        const mainCurrency = data?.mainCurrencie
-        if (userCurrencies) {
-          setMainCurrency(mainCurrency)
+    auth.onAuthStateChanged((user) => {
+      if (user === null) return
+      const userInfo = getDoc(doc(db, "users", user.uid));
+      userInfo.then((doc) => {
+        if (doc.exists()) {
+          const data = doc.data()
+          const userCurrencies = data?.currencies
+          const mainCurrency = data?.mainCurrency
+          if (userCurrencies) {
+            setMainCurrency(mainCurrency)
+          }
+          if (userCurrencies) {
+            setCurrencies(userCurrencies)
+          }
         }
-        if (userCurrencies) {
-          setCurrencies(userCurrencies)
-        }
-      }
-    }).catch((error) => {
-      toast.error("Error getting document:", error);
+      }).catch((error) => {
+        toast.error("Error getting document:", error);
+      })
     })
+
     setLoading(false)
   }
 
@@ -101,9 +104,9 @@ const Home = () => {
             <div className="w-44 h-32 animate-pulse bg-gray-400 rounded-md md:col-span-2 col-span-6 "/>
             <div className="w-44 h-32 animate-pulse bg-gray-400 rounded-md md:col-span-2 col-span-6"/>
           </>
-          : currencies.map((currency: any) => {
+          : currencies.map((currency: any,index:number) => {
             return (
-              <div key={currency} className="col-span-6 md:col-span-2">
+              <div key={index} className="col-span-6 md:col-span-2">
                 <CurrencyCard currency={mainCurrency} baseCurrency={currency} setCurrencies={setCurrencies}/>
               </div>
             )

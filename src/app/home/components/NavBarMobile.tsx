@@ -13,7 +13,11 @@ import {GiHamburgerMenu} from "react-icons/gi";
 import NavBarButton from "@/app/home/components/NavBarButton";
 import {useRouter} from "next/navigation";
 
-const NavBarMobile = () => {
+type NavBarMobileProps = {
+  email?: string | null
+
+}
+const NavBarMobile = ({email}:NavBarMobileProps) => {
 
   const userState = useRecoilValue(UserState)
   const router = useRouter()
@@ -41,7 +45,7 @@ const NavBarMobile = () => {
       {show && (
         <div className="py-1 bg-white rounded-b-lg shadow-lg w-full md:hidden">
           <div className="flex flex-col py-8">
-            <NavBarButton onClick={()=>{}} icon={<HiOutlineSignal className="text-green-500 w-5 h-5 my-auto mr-2"/>} label={'USER'} />
+            <NavBarButton onClick={()=>{}} icon={<HiOutlineSignal className="text-green-500 w-5 h-5 my-auto mr-2"/>} label={email} />
             <NavBarButton onClick={()=>{}} icon={<FaChartPie className="my-auto w-4 h-4 mr-2 "/>} label={'Inicio'} />
             <NavBarButton onClick={()=>{}} icon={<IoIosToday className="my-auto w-4 h-4 mr-2 "/>} label={'Gastos del mes'} />
             <NavBarButton onClick={()=>{}} icon={<FaCreditCard className="my-auto w-4 h-4 mr-2 "/>} label={'Mis tarjetas'} />
