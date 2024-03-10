@@ -102,7 +102,7 @@ const Login = () => {
                        onChange={(event) => setPassword(event.target.value)}
                        className="flex items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-gray-400 placeholder:text-gray-700 bg-gray-200 text-dark-gray-900 rounded-2xl"/>
                 <div className="flex flex-row justify-end mb-8">
-                  <a href="javascript:void(0)" className="mr-4 text-sm font-medium text-gray-800">Olvidaste la
+                  <a href="#" className="mr-4 text-sm font-medium text-gray-800">Olvidaste la
                     contraseña?</a>
                 </div>
                 <button

@@ -1,31 +1,13 @@
 "use client"
-import {HiOutlineSignal} from "react-icons/hi2";
-import {FaChartBar, FaChartPie, FaCreditCard} from "react-icons/fa";
-import {IoIosToday} from "react-icons/io";
-import {BsCashCoin, BsTools} from "react-icons/bs";
-import {IoLogOutSharp} from "react-icons/io5";
-import React, {useCallback} from "react";
-import {useRecoilValue} from "recoil";
-import {signOut} from "@firebase/auth";
-import {auth} from "@/firebase";
-import {UserState} from "@/store/recoil/User";
+import React from "react";
 import {GiHamburgerMenu} from "react-icons/gi";
-import NavBarButton from "@/app/home/components/NavBarButton";
-import {useRouter} from "next/navigation";
+import MenuBar from "@/app/home/components/MenuBar";
 
 type NavBarMobileProps = {
   email?: string | null
 
 }
 const NavBarMobile = ({email}:NavBarMobileProps) => {
-
-  const userState = useRecoilValue(UserState)
-  const router = useRouter()
-
-  const logOut = useCallback(()=>{
-    signOut(auth)
-    return router.push('/login')
-  },[auth])
 
   const [show, setShow] = React.useState(false)
 
@@ -45,16 +27,7 @@ const NavBarMobile = ({email}:NavBarMobileProps) => {
       {show && (
         <div className="py-1 bg-white rounded-b-lg shadow-lg w-full md:hidden">
           <div className="flex flex-col py-8">
-            <NavBarButton onClick={()=>{}} icon={<div className="bg-green-500 rounded-full w-2 h-2 my-auto mr-2"/>}
-                          label={email}/>
-            <NavBarButton onClick={() => {
-              router.push('/home')}} icon={<FaChartPie className="my-auto w-4 h-4 mr-2 "/>} label={'Inicio'} />
-            <NavBarButton onClick={()=>{}} icon={<IoIosToday className="my-auto w-4 h-4 mr-2 "/>} label={'Gastos del mes'} />
-            <NavBarButton onClick={()=>{router.push('/home/cards')}} icon={<FaCreditCard className="my-auto w-4 h-4 mr-2 "/>} label={'Mis tarjetas'} />
-            <NavBarButton onClick={()=>{}} icon={<BsCashCoin className="my-auto w-4 h-4 mr-2 "/>} label={'Presupuestos'} />
-            <NavBarButton onClick={()=>{}} icon={<FaChartBar className="my-auto w-4 h-4 mr-2 "/>} label={'Estadisticas'} />
-            <NavBarButton onClick={()=>{}} icon={<BsTools className="my-auto w-4 h-4 mr-2 "/>} label={'Herramientas'} />
-            <NavBarButton onClick={logOut} icon={<IoLogOutSharp className="my-auto w-4 h-4 mr-2 "/>} label={'Cerrar sesion'} />
+            <MenuBar email={email} onClick={()=>{setShow(false)}}/>
           </div>
         </div>
       )}

@@ -1,23 +1,52 @@
 import {RiVisaFill} from "react-icons/ri";
 import {FaTrashAlt} from "react-icons/fa";
 import {MdEdit} from "react-icons/md";
+import swal from "sweetalert2";
+import {deleteDoc} from "@firebase/firestore";
+import {db, auth} from "@/firebase";
+import {doc} from "firebase/firestore";
+import {toast} from "sonner";
+import {Dispatch, SetStateAction} from "react";
 
 type CreditCardProps = {
-  name: string
-  number: string
-  expiryDate: string
-  isVisa: boolean
+  card: any
+  setCards: Dispatch<SetStateAction<any[]>>
 }
-const CreditCard = ({name,number,expiryDate,isVisa}:CreditCardProps) => {
+const CreditCard = ({card,setCards}: CreditCardProps) => {
+
+  const deleteCard = () => {
+    swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, bórralo!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        auth.onAuthStateChanged(async (user) => {
+          if (user === null) return
+          await deleteDoc(doc(db, "users", user.uid, "credit_cards", card.id))
+          toast.success("Tarjeta eliminada correctamente")
+          setCards((cards) => {
+            return cards.filter((c) => c.id !== card.id)
+          })
+        })
+      }
+    })
+  }
+
+
   return (
     <div
-      className="flex flex-col justify-around bg-gray-800 p-4 border border-white border-opacity-30 rounded-lg shadow-md max-w-xs mx-auto"
+      className="flex flex-col justify-around bg-gray-800 p-4 border border-white border-opacity-30 rounded-lg shadow-md mx-auto mb-6"
     >
       <div className="flex flex-row items-center justify-between mb-3">
         <input
           className="w-full h-10 border-none outline-none text-sm bg-gray-800 text-white font-semibold caret-orange-500 pl-2 mb-3 flex-grow"
           type="text"
-          value={name}
+          value={card?.name}
           id="cardName"
           disabled
           placeholder="Full Name"
@@ -25,7 +54,7 @@ const CreditCard = ({name,number,expiryDate,isVisa}:CreditCardProps) => {
         <div
           className="flex items-center justify-center relative w-14 h-9 bg-gray-800 border border-white border-opacity-20 rounded-md"
         >
-          {isVisa ?
+          {card?.isVisa ?
             <RiVisaFill className="text-gray-300 w-6 h-6"/>
             :
             <svg
@@ -53,8 +82,13 @@ const CreditCard = ({name,number,expiryDate,isVisa}:CreditCardProps) => {
         </div>
       </div>
       <div className="flex flex-col space-y-3">
-        <span className="w-full h-10 border-none outline-none text-sm bg-gray-800 text-white font-semibold caret-orange-500 pl-2">
-          XXXX XXXX XXXX {number}
+        <span
+          className="w-full h-8 border-none outline-none text-sm bg-gray-800 text-white font-semibold caret-orange-500 pl-2">
+          XXXX XXXX XXXX {card?.number}
+        </span>
+        <span
+          className="w-full border-none outline-none text-sm bg-gray-800 text-white font-semibold caret-orange-500 pl-2 text-xs">
+          $ {card?.maxAmount - card?.usedAmount} / {card?.maxAmount}
         </span>
         <div className="flex flex-row justify-between">
           <input
@@ -63,13 +97,15 @@ const CreditCard = ({name,number,expiryDate,isVisa}:CreditCardProps) => {
             name="expiryDate"
             id="expiryDate"
             disabled
-            value={expiryDate}
+            value={card?.expiryDate}
             placeholder="MM/AA"
           />
 
           <div className="flex flex-row gap-x-4 my-auto mx-auto">
-            <MdEdit className="w-7 h-7 md:w-5 md:h-5 text-yellow-400" />
-            <FaTrashAlt className="w-7 h-7 md:w-5 md:h-5 text-red-600" />
+            <MdEdit className="w-7 h-7 md:w-5 md:h-5 text-yellow-400"/>
+            <FaTrashAlt
+              onClick={deleteCard}
+              className="w-7 h-7 md:w-5 md:h-5 text-red-600"/>
           </div>
 
         </div>

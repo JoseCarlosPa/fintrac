@@ -12,7 +12,7 @@ const CardExample = () => {
           placeholder="Full Name"
         />
         <div
-          className="flex items-center justify-center relative w-14 h-9 bg-gray-800 border border-white border-opacity-20 rounded-md"
+          className="flex items-center justify-center w-14 h-9 bg-gray-800 border border-white border-opacity-20 rounded-md"
         >
           <svg
             className="text-white fill-current"

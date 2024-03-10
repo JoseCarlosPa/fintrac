@@ -9,8 +9,6 @@ import {db,auth} from "@/firebase";
 import {toast} from "sonner";
 import swal from "sweetalert2";
 import {currenciesValues} from "@/store/currencies";
-import {getAuth} from "firebase/auth";
-
 const Home = () => {
 
   const [currencies, setCurrencies] = useState<any>([])
@@ -124,10 +122,10 @@ const Home = () => {
         </div>
       </div>
       <div className="mt-8 grid grid-cols-12 gap-x-6 gap-y-6">
-        <div className="col-span-12 md:col-span-6">
+        <div className="col-span-12 md:col-span-6 bg-white rounded shadow-md p-4">
           <VerticalBarChart/>
         </div>
-        <div className="col-span-12 md:col-span-6  ">
+        <div className="col-span-12 md:col-span-6  bg-white rounded shadow-md p-4">
           <div className="flex flex-row justify-center h-72">
             <PieChart/>
           </div>
