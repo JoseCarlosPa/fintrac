@@ -42,9 +42,11 @@ const CreditCard = ({card, setCards}: CreditCardProps) => {
 
     return (
         <>
-            {open && <CardModal edit setCards={setCards} open={open} onClose={() => {setOpen(false)}} card={card}/>}
+            {open && <CardModal edit setCards={setCards} open={open} onClose={() => {
+                setOpen(false)
+            }} card={card}/>}
             <div
-                className={`flex flex-col justify-around ${card?.color ? `bg-${card?.color}-500` : 'bg-gray-800'}  p-4 border border-white border-opacity-30 rounded-lg shadow-md mx-auto mb-6`}
+                className={`flex flex-col justify-around ${card?.color ? `bg-${card?.color}-500` : 'bg-gray-800'}  px-4 py-2 md:p-4 border border-white border-opacity-30 rounded-lg shadow-md mx-auto mb-6`}
             >
                 <div className="flex flex-row items-center justify-between mb-3">
                     <input
@@ -56,7 +58,7 @@ const CreditCard = ({card, setCards}: CreditCardProps) => {
                         placeholder="Full Name"
                     />
                     <div
-                        className="flex items-center justify-center relative w-14 h-9 bg-transparent border border-white border-opacity-20 rounded-md"
+                        className="flex items-center justify-center w-14 h-9 bg-transparent border border-white border-opacity-20 rounded-md"
                     >
                         {card?.isVisa ?
                             <RiVisaFill className="text-gray-300 w-6 h-6"/>
@@ -90,33 +92,38 @@ const CreditCard = ({card, setCards}: CreditCardProps) => {
                 className="w-full h-8 border-none outline-none text-sm bg-transparent text-white font-semibold caret-orange-500 pl-2">
               XXXX XXXX XXXX {card?.number}
             </span>
-                    <span
-                        className="w-full border-none outline-none  bg-transparent text-white font-semibold caret-orange-500 pl-2 text-xs">
-                      {(card?.maxAmount - card?.usedAmount).toLocaleString('es-MX', {
-                          style: 'currency',
-                          currency: 'MXN'
-
-                      })} / {(parseFloat(card?.maxAmount)).toLocaleString('es-MX', {
+            <span
+                className="w-full border-none outline-none  bg-transparent text-white font-semibold caret-orange-500 pl-2 text-xs">
+                   {(parseFloat(card?.usedAmount)).toLocaleString('es-MX', {
+                           style: 'currency',
+                           currency: 'MXN'
+                       })}/ {(parseFloat(card?.maxAmount)).toLocaleString('es-MX', {
                         style: 'currency',
                         currency: 'MXN'
                     })}
+                <span className="ml-2">({(card?.maxAmount - card?.usedAmount).toLocaleString('es-MX', {
+                        style: 'currency',
+                        currency: 'MXN'
+
+                    })})
+                </span>
                         <div className="mt-1 h-2 rounded-r w-full bg-neutral-200 dark:bg-neutral-600">
                         <div className="h-2 rounded-r bg-blue-800"
                              style={{'width': `${((card.usedAmount * 100) / card.maxAmount).toFixed(2)}%`}}></div>
                     </div>
-                <span
-                    className="flex flex-row justify-center mt-2">{((card.usedAmount * 100) / card.maxAmount).toFixed(2)}%</span>
+            <span
+                className="flex flex-row justify-center mt-2">{((card.usedAmount * 100) / card.maxAmount).toFixed(2)}%</span>
             </span>
-                    <div className="flex flex-row justify-end">
+                    <div className="flex flex-row justify-end ">
                         <div className="flex flex-row gap-x-4 my-auto">
                             <MdEdit
                                 onClick={() => {
                                     setOpen(true)
                                 }}
-                                className="w-7 h-7 md:w-5 md:h-5 text-yellow-400 cursor-pointer"/>
+                                className="w-6 h-6 md:w-5 md:h-5 text-yellow-400 cursor-pointer"/>
                             <FaTrashAlt
                                 onClick={deleteCard}
-                                className="w-7 h-7 md:w-5 md:h-5 text-red-600 cursor-pointer"/>
+                                className="w-6 h-6 md:w-5 md:h-5 text-red-600 cursor-pointer"/>
                         </div>
                     </div>
                 </div>
