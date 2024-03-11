@@ -1,7 +1,7 @@
 "use client"
 import CreditCard from "@/app/home/cards/components/CreditCard";
 import {db, auth} from "@/firebase";
-import {collection, query, getDocs, orderBy, doc, getDoc} from "firebase/firestore";
+import {collection, query, getDocs, orderBy } from "firebase/firestore";
 import {useEffect, useState} from "react";
 import CardExample from "@/app/home/cards/components/CardExample";
 import CardModal from "@/app/home/cards/components/modals/CardModal";
