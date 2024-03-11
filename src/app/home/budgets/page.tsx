@@ -8,15 +8,16 @@ import {Card} from "@/types/Card";
 const BudgetsPage = () => {
 
   const [open, setOpen] = useState(false)
-  const [budgets, setBudgets] = useState<Budget[]>([])
-  const [creditCards, setCreditCards] = useState<Card[]>([])
+  const [budgets, setBudgets] = useState<any[]>([])
+  const [creditCards, setCreditCards] = useState<any[]>([])
 
   const getBudgets = async () => {
     setBudgets([])
     auth.onAuthStateChanged((user) => {
       if (user === null) return
       const budgetsArray = query(collection(db, "users", user.uid, "budgets"), orderBy('pay_date', 'asc'))
-      budgetsArray.get().then((querySnapshot) => {
+      const budgetsSnapshot = getDocs(budgetsArray)
+      budgetsSnapshot.then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           setBudgets((budgets) => [...budgets, {id: doc.id, ...doc.data()}])
         });
@@ -29,7 +30,8 @@ const BudgetsPage = () => {
     auth.onAuthStateChanged((user) => {
       if (user === null) return
       const creditCardsArray =  query(collection(db, "users", user.uid, "credit_cards"), orderBy('name', 'asc'))
-      creditCardsArray.get().then((querySnapshot) => {
+      const creditCardsSnapshot = getDocs(creditCardsArray)
+      creditCardsSnapshot.then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           setCreditCards((creditCards) => [...creditCards, {id: doc.id, ...doc.data()}])
         });
