@@ -9,6 +9,7 @@ import {toast} from "sonner";
 import {Dispatch, SetStateAction, useState} from "react";
 import CardModal from "@/app/home/cards/components/modals/CardModal";
 import {Card} from "@/types/Card";
+import {BiSolidPurchaseTag} from "react-icons/bi";
 
 type CreditCardProps = {
   card: Card

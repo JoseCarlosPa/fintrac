@@ -56,7 +56,7 @@ const CardPurchaseModal = ({open,onClose,edit,purchase,card,setPurchases}:CardPu
       const purchaseRef = doc(db,'users',user.uid,'credit_cards',card.id,'msi',purchase.id)
       await updateDoc(purchaseRef,payload).then(()=>{
         setLoading(false)
-        setPurchases((purchases:Purchase[]) => purchases.map(purchase => purchase.id === purchase.id ? payload : purchase))
+        setPurchases((prev:Purchase[]) => prev.map(prevMap => prevMap.id === purchase.id ? payload : purchase))
         toast.success("Compra actualizada correctamente")
         onClose()
       })

@@ -58,7 +58,7 @@ const Purchase = ({purchase,card,setPurchases}:PurchaseType) => {
         currency: 'MXN'
       })}</td>
       <td
-        className="text-center border border-gray-500">{((purchase.payments * purchase.per_pay) - purchase.paid).toLocaleString('es-MX', {
+        className="text-center border border-gray-500">{((purchase.payments * purchase.per_pay) - (purchase.paid * purchase.per_pay)).toLocaleString('es-MX', {
         style: 'currency',
         currency: 'MXN'
       })}</td>
