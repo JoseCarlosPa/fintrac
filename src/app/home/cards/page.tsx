@@ -45,7 +45,7 @@ const CreditCards = () => {
             <div className="flex flex-row justify-end mt-4 mr-4 gap-x-4">
                 <button
                     onClick={() => setShowPurchases(!showPurchases)}
-                    className="text-gray-500 text-sm md:hidden"
+                    className="text-gray-500 text-sm md:hidden bg-gray-900 hover:bg-gray-800 px-4 py-2"
                 >
                   {showPurchases ? 'Ocultar compras' : 'Ver compras'}
                 </button>

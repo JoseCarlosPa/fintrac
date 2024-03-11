@@ -22,9 +22,9 @@ const CardPurchaseModal = ({open,onClose,edit,purchase,card,setPurchases}:CardPu
 
   const [payload, setPayload] = useState({
     name: edit ? purchase?.name : "",
-    payments: edit ? purchase?.payments : 0,
-    paid:  edit ? purchase?.paid : 0,
-    per_pay: edit ? purchase?.per_pay : 0,
+    payments: edit ? purchase?.payments : undefined,
+    paid:  edit ? purchase?.paid : undefined,
+    per_pay: edit ? purchase?.per_pay : undefined,
   })
 
   const AddPurchase = async () => {

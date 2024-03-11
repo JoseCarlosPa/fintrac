@@ -31,9 +31,15 @@ const CardPurchases = ({card}: CardPurchasesProps) => {
     getPurchases()
   }, []);
 
+  const calculateTotal = () => {
+    return purchases.reduce((acc, purchase) => {
+      return acc + (purchase.per_pay)
+    }, 0)
+  }
+
 
   return (
-    <div className="flex flex-col h-56 overflow-y-auto ">
+    <div className="flex flex-col md:h-56 md:overflow-y-auto overflow-x-auto ">
       <div className="flex flex-row justify-between mt-4">
         <span className="text-sm font-semibold">Gastos y MSI de {card?.name}</span>
         {open && <CardPurchaseModal setPurchases={setPurchases} card={card} open={open} onClose={() => {
@@ -61,6 +67,18 @@ const CardPurchases = ({card}: CardPurchasesProps) => {
           {purchases.map((purchase: Purchase, index: number) => {
             return (<Purchase key={index} purchase={purchase} card={card} setPurchases={setPurchases}/>)
           })}
+          <tr className="text-sm ">
+            <td className="text-center border border-gray-500">Total</td>
+            <td className="text-center border border-gray-500"></td>
+            <td className="text-center border border-gray-500"></td>
+            <td className="text-center border border-gray-500">{calculateTotal().toLocaleString('es-MX', {
+              style: 'currency',
+              currency: 'MXN'
+            })}</td>
+            <td className="text-center border border-gray-500"></td>
+            <td className="text-center border border-gray-500"></td>
+            <td className="text-center border border-gray-500"></td>
+          </tr>
           </tbody>
         </table>
       </div>
