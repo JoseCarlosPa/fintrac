@@ -4,7 +4,7 @@ import {db, auth} from "@/firebase";
 import {collection, query, getDocs, orderBy, doc, getDoc} from "firebase/firestore";
 import {useEffect, useState} from "react";
 import CardExample from "@/app/home/cards/components/CardExample";
-import AddNewCardModal from "@/app/home/cards/components/modals/AddNewCardModal";
+import CardModal from "@/app/home/cards/components/modals/CardModal";
 
 const CreditCards = () => {
 
@@ -32,7 +32,7 @@ const CreditCards = () => {
 
   return (
     <>
-      {open && <AddNewCardModal setCards={setCards} open={open} onClose={() => {
+      {open && <CardModal setCards={setCards} open={open} onClose={() => {
         setOpen(false)
       }}/>}
 
