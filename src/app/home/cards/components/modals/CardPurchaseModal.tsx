@@ -61,39 +61,53 @@ const CardPurchaseModal = ({open,onClose,edit,purchase,card}:CardPurchaseModalPr
         <div className="flex flex-row justify-between">
           <span className="text-lg font-semibold">{edit ? "Editar" : "Agregar"} compra a MSI</span>
         </div>
-        <div className="flex flex-col">
-          <input
-            className="w-full h-10 border-none outline-none text-sm bg-transparent text-white font-semibold caret-orange-500 pl-2 mb-3 flex-grow"
-            type="text"
-            value={payload?.name}
-            id="cardName"
-            disabled
-            placeholder="Nombre de la compra"
-          />
-          <input
-            className="w-full h-10 border-none outline-none text-sm bg-transparent text-white font-semibold caret-orange-500 pl-2 mb-3 flex-grow"
-            type="number"
-            value={payload?.payments}
-            id="cardName"
-            disabled
-            placeholder="Pagos"
-          />
-          <input
-            className="w-full h-10 border-none outline-none text-sm bg-transparent text-white font-semibold caret-orange-500 pl-2 mb-3 flex-grow"
-            type="number"
-            value={payload?.paid}
-            id="cardName"
-            disabled
-            placeholder="Pagados"
-          />
-          <input
-            className="w-full h-10 border-none outline-none text-sm bg-transparent text-white font-semibold caret-orange-500 pl-2 mb-3 flex-grow"
-            type="number"
-            value={payload?.per_pay}
-            id="cardName"
-            disabled
-            placeholder="$ por pago"
-          />
+        <div className="grid grid-cols-12 gap-4">
+          <div className="col-span-12 flex flex-col justify-center mt-4">
+            <span className="text-xs text-white font-semibold">Nombre de la compra</span>
+            <input
+              onChange={(e) => setPayload({...payload, name: e.target.value})}
+              className="border-2 border-gray-200 p-2 rounded-md w-full"
+              type="text"
+              value={payload?.name}
+              id="cardName"
+              disabled
+              placeholder="Nombre de la compra"
+            />
+          </div>
+          <div className="col-span-12 md:col-span-4 flex flex-col justify-center mt-4">
+            <span className="text-xs text-white font-semibold">Pagos</span>
+            <input
+              onChange={(e) => setPayload({...payload, payments: parseInt(e.target.value)})}
+              className="border-2 border-gray-200 p-2 rounded-md w-full"
+              type="number"
+              value={payload?.payments}
+              id="payments"
+              placeholder="Pagos"
+            />
+          </div>
+          <div className="col-span-12 md:col-span-4 flex flex-col justify-center mt-4">
+            <span className="text-xs text-white font-semibold">Pagado</span>
+            <input
+              onChange={(e) => setPayload({...payload, paid: parseInt(e.target.value)})}
+              className="border-2 border-gray-200 p-2 rounded-md w-full"
+              type="number"
+              value={payload?.paid}
+              id="paid"
+              placeholder="Pagado"
+            />
+          </div>
+          <div className="col-span-12 md:col-span-4 flex flex-col justify-center mt-4">
+            <span className="text-xs text-white font-semibold">$ Por pago</span>
+            <input
+              onChange={(e) => setPayload({...payload, per_pay: parseInt(e.target.value)})}
+              className="border-2 border-gray-200 p-2 rounded-md w-full"
+              type="number"
+              value={payload?.per_pay}
+              id="per_pay"
+              placeholder="$ Por pago"
+            />
+          </div>
+
         </div>
         <div className="flex flex-row justify-end">
           <button
