@@ -42,17 +42,17 @@ const CreditCards = () => {
       <div className="flex flex-col">
         <span className="font-bold text-lg">Mis tarjetas</span>
         {cards?.length !== 0 &&
-            <div className="flex flex-row justify-end mt-4 mr-4 gap-x-4">
+            <div className="flex flex-row justify-between md:justify-end mt-4 mr-4 gap-x-4">
                 <button
                     onClick={() => setShowPurchases(!showPurchases)}
-                    className="text-gray-500 text-sm md:hidden bg-gray-900 hover:bg-gray-800 px-4 py-2"
+                    className="text-white rounded text-sm md:hidden bg-gray-900 hover:bg-gray-800 px-4 py-2"
                 >
                   {showPurchases ? 'Ocultar compras' : 'Ver compras'}
                 </button>
 
                 <button
                     onClick={() => setOpen(true)}
-                    className="bg-gray-900 hover:bg-gray-800 text-white rounded-md px-4 py-2"
+                    className="bg-gray-900 hover:bg-gray-800 text-white rounded-md px-4 py-2 w-56"
                 >
                     + Agregar tarjeta
                 </button>

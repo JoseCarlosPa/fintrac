@@ -53,14 +53,14 @@ const CardPurchases = ({card}: CardPurchasesProps) => {
       <div className="flex flex-row mt-4">
         <table className="w-full">
           <thead>
-          <tr className="text-sm ">
-            <th className="text-center border border-gray-500 b">Nombre</th>
-            <th className="text-center border border-gray-500">Pagos</th>
-            <th className="text-center border border-gray-500">Pagados</th>
-            <th className="text-center border border-gray-500">$ por pago</th>
-            <th className="text-center border border-gray-500">Total</th>
-            <th className="text-center border border-gray-500">Faltante</th>
-            <th className="text-center border border-gray-500">Acciones</th>
+          <tr className="text-sm px-2">
+            <th className="text-center border border-gray-500 px-2">Nombre</th>
+            <th className="text-center border border-gray-500 px-2">Pagos</th>
+            <th className="text-center border border-gray-500 px-2">Pagados</th>
+            <th className="text-center border border-gray-500 px-2">$ por pago</th>
+            <th className="text-center border border-gray-500 px-2">Total</th>
+            <th className="text-center border border-gray-500 px-2">Faltante</th>
+            <th className="text-center border border-gray-500 px-2">Acciones</th>
           </tr>
           </thead>
           <tbody>

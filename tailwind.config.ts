@@ -7,9 +7,12 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   safelist: [
-      "bg-yellow-500",
-      "bg-blue-500",
-      "bg-purple-500",
+      "from-yellow-500",
+      "to-yellow-400",
+        "from-blue-500",
+        "to-blue-400",
+        "from-purple-500",
+        "to-purple-400",
       ],
   theme: {
     extend: {

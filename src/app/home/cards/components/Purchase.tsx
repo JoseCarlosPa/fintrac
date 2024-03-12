@@ -7,6 +7,7 @@ import swal from "sweetalert2";
 import {auth, db} from "@/firebase";
 import {deleteDoc} from "@firebase/firestore";
 import {doc} from "firebase/firestore";
+import {toast} from "sonner";
 
 type PurchaseType = {
   purchase: Purchase
@@ -17,7 +18,7 @@ type PurchaseType = {
 const Purchase = ({purchase,card,setPurchases}:PurchaseType) => {
   const [openEdit, setOpenEdit] = useState(false)
 
-  const deletePurchase = async (purchaseId: string) => {
+  const deletePurchase = async () => {
     swal.fire({
       title: '¿Estás seguro?',
       text: "No podrás revertir esto!",
@@ -30,10 +31,11 @@ const Purchase = ({purchase,card,setPurchases}:PurchaseType) => {
       if (result.isConfirmed) {
         auth.onAuthStateChanged(async (user) => {
           if (user === null) return
-          await deleteDoc(doc(db, "users", user.uid, "credit_cards", card.id, "msi", purchaseId))
+          await deleteDoc(doc(db, "users", user.uid, "credit_cards", card.id, "msi", purchase.id))
           setPurchases((purchases: Purchase[]) => {
-            return purchases.filter(purchase => purchase.id !== purchaseId)
+            return purchases.filter(purchase => purchase.id !== purchase.id)
           })
+          toast.success("Compra eliminada correctamente")
         })
       }
     })
@@ -45,32 +47,32 @@ const Purchase = ({purchase,card,setPurchases}:PurchaseType) => {
       {openEdit && <CardPurchaseModal setPurchases={setPurchases} card={card} edit purchase={purchase} open={openEdit} onClose={() => {
         setOpenEdit(false)
       }}/>}
-      <td className="text-center border border-gray-500">{purchase.name}</td>
-      <td className="text-center border border-gray-500">{purchase.payments}</td>
-      <td className="text-center border border-gray-500">{purchase.paid}</td>
-      <td className="text-center border border-gray-500">{(purchase.per_pay).toLocaleString('es-MX', {
+      <td className="text-center border border-gray-500 px-2">{purchase.name}</td>
+      <td className="text-center border border-gray-500 px-2">{purchase.payments}</td>
+      <td className="text-center border border-gray-500 px-2">{purchase.paid}</td>
+      <td className="text-center border border-gray-500 px-2">{(purchase.per_pay).toLocaleString('es-MX', {
         style: 'currency',
         currency: 'MXN'
       })}</td>
       <td
-        className="text-center border border-gray-500">{(purchase.payments * purchase.per_pay).toLocaleString('es-MX', {
+        className="text-center border border-gray-500 px-2">{(purchase.payments * purchase.per_pay).toLocaleString('es-MX', {
         style: 'currency',
         currency: 'MXN'
       })}</td>
       <td
-        className="text-center border border-gray-500">{((purchase.payments * purchase.per_pay) - (purchase.paid * purchase.per_pay)).toLocaleString('es-MX', {
+        className="text-center border border-gray-500 px-2">{((purchase.payments * purchase.per_pay) - (purchase.paid * purchase.per_pay)).toLocaleString('es-MX', {
         style: 'currency',
         currency: 'MXN'
       })}</td>
-      <td className="text-center border border-gray-500">
-        <div className="flex flex-row gap-x-4 justify-center">
+      <td className="text-center border border-gray-500 px-2">
+        <div className="flex flex-row gap-x-4 justify-center py-1">
           <button
             onClick={() => setOpenEdit(true)}
-            className="bg-gray-900 rounded px-2 py-1 text-white text-xs">Editar
+            className="bg-gray-900 rounded px-2 py-1 text-white text-xs w-20">Editar
           </button>
           <button
-            onClick={() => deletePurchase(purchase.id)}
-            className="bg-red-500 rounded px-2 py-1 text-white text-xs">Eliminar
+            onClick={deletePurchase}
+            className="bg-red-500 rounded px-2 py-1 text-white text-xs w-20">Eliminar
           </button>
         </div>
       </td>

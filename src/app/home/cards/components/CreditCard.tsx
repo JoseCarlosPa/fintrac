@@ -48,11 +48,11 @@ const CreditCard = ({card, setCards}: CreditCardProps) => {
         setOpen(false)
       }} card={card}/>}
       <div
-        className={`flex flex-col justify-around ${card?.color ? `bg-${card?.color}-500` : 'bg-gray-800'}  px-4 py-2 md:p-4 border border-white border-opacity-30 rounded-lg shadow-md mx-auto mb-6`}
+        className={`flex flex-col justify-around bg-gradient-to-r ${card?.color ? ` from-${card?.color}-500  to-${card?.color}-400` : 'bg-gray-800'}  px-4 py-2 md:p-4 border border-white border-opacity-30 rounded-lg shadow-md mx-auto mb-6`}
       >
         <div className="flex flex-row items-center justify-between mb-3">
           <input
-            className="w-full h-10 border-none outline-none text-sm bg-transparent text-white font-semibold caret-orange-500 pl-2 mb-3 flex-grow"
+            className="w-full h-10 border-none outline-none font-bold bg-transparent text-white  caret-orange-500 pl-2 mb-3 flex-grow"
             type="text"
             value={card?.name}
             id="cardName"
@@ -122,7 +122,7 @@ const CreditCard = ({card, setCards}: CreditCardProps) => {
                 onClick={() => {
                   setOpen(true)
                 }}
-                className="w-6 h-6 md:w-5 md:h-5 text-yellow-400 cursor-pointer"/>
+                className="w-6 h-6 md:w-5 md:h-5 text-yellow-500 cursor-pointer"/>
               <FaTrashAlt
                 onClick={deleteCard}
                 className="w-6 h-6 md:w-5 md:h-5 text-red-600 cursor-pointer"/>

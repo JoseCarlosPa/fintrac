@@ -21,6 +21,7 @@ const CardPurchaseModal = ({open,onClose,edit,purchase,card,setPurchases}:CardPu
   const [loading, setLoading] = useState(false)
 
   const [payload, setPayload] = useState({
+    id: edit ? purchase?.id : undefined,
     name: edit ? purchase?.name : "",
     payments: edit ? purchase?.payments : undefined,
     paid:  edit ? purchase?.paid : undefined,
@@ -28,7 +29,7 @@ const CardPurchaseModal = ({open,onClose,edit,purchase,card,setPurchases}:CardPu
   })
 
   const AddPurchase = async () => {
-    if(payload?.name === "" || payload?.payments === 0 || payload?.paid === 0 || payload?.per_pay === 0){
+    if(payload?.name === "" || payload?.payments === undefined || payload?.paid === undefined || payload?.per_pay === undefined){
       toast.error("Todos los campos son requeridos")
       return
     }
@@ -56,7 +57,14 @@ const CardPurchaseModal = ({open,onClose,edit,purchase,card,setPurchases}:CardPu
       const purchaseRef = doc(db,'users',user.uid,'credit_cards',card.id,'msi',purchase.id)
       await updateDoc(purchaseRef,payload).then(()=>{
         setLoading(false)
-        setPurchases((prev:Purchase[]) => prev.map(prevMap => prevMap.id === purchase.id ? payload : purchase))
+        setPurchases((prevState:Purchase[]) => {
+          return prevState.map(pur => {
+            if(pur.id === payload.id){
+              return payload
+            }
+            return pur
+          })
+        })
         toast.success("Compra actualizada correctamente")
         onClose()
       })
