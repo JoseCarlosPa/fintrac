@@ -1,10 +1,11 @@
 "use client"
 import {Card} from "@/types/Card";
 import {useEffect, useState} from "react";
-import {collection, deleteDoc, getDocs} from "@firebase/firestore";
+import {collection, deleteDoc, getDocs, where} from "@firebase/firestore";
 import {db, auth} from "@/firebase";
 import CardPurchaseModal from "@/app/home/cards/components/modals/CardPurchaseModal";
 import Purchase from "@/app/home/cards/components/Purchase";
+import {doc, query, updateDoc} from "firebase/firestore";
 
 type CardPurchasesProps = {
   card: Card
@@ -32,9 +33,39 @@ const CardPurchases = ({card}: CardPurchasesProps) => {
   }, []);
 
   const calculateTotal = () => {
-    return purchases.reduce((acc, purchase) => {
+
+    const total = purchases.reduce((acc, purchase) => {
       return acc + (purchase.per_pay)
     }, 0)
+
+    auth.onAuthStateChanged((user) => {
+      if(user === null) return
+
+      const budgetRef = collection(db, "users", user.uid, "budgets")
+      const CardFilter = query(budgetRef,where('category', '==', 'Tarjetas') )
+      const budgetSnapshot = getDocs(CardFilter)
+
+      budgetSnapshot.then((querySnapshot) => {
+        querySnapshot.forEach(async (doc) => {
+          if(doc.data().credit_card === card.id && doc.data().category === "Tarjetas"){
+            await updateDoc(doc.ref, {
+              id: doc.id,
+              amount: total,
+              credit_card: card.id,
+              category: "Tarjetas",
+              name: card.name,
+              paid: false,
+              pay_date: card.cut_date
+            })
+          }
+        });
+      });
+
+    })
+
+
+
+    return  total
   }
 
 

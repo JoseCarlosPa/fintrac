@@ -6,9 +6,6 @@ import {Budget} from "@/types/Budget";
 import {Card} from "@/types/Card";
 import BudgetModal from "@/app/home/budgets/components/modals/BudgetModal";
 import {FaGear} from "react-icons/fa6";
-import {MdEdit} from "react-icons/md";
-import {FaTrashAlt} from "react-icons/fa";
-import CreditCardBudget from "@/app/home/budgets/components/CreditCardBudget";
 
 const BudgetsPage = () => {
 
@@ -113,7 +110,6 @@ const BudgetsPage = () => {
   }
 
 
-
   return(
       <div className="flex flex-col">
         {open && <BudgetModal setBudgets={setBudgets} creditCards={creditCards} open={open} onClose={() => {
@@ -165,14 +161,7 @@ const BudgetsPage = () => {
                 </tr>
 
             ))}
-            <tr className="border-2 border-gray-500"></tr>
-            {orderedCreditCards().map((card: Card) => {
-              return (
-                  <CreditCardBudget
-                      onTotalChange={handleCreditCardsTotalChange}
-                      card={card} key={card.id}/>
-              )
-            })}
+
             <tr>
               <td className="px-2 py-2 text-sm border border-gray-400">Total</td>
               <td className="px-2 py-2 text-sm border border-gray-400" >

@@ -44,13 +44,26 @@ const CardModal = ({open, onClose, setCards,edit,card}: AddNewCardModalProps) =>
       const creditCardsRef = collection(db,'users',user.uid,'credit_cards')
       setLoading(true)
 
+      let docId  = ""
       await addDoc(creditCardsRef,payload).then((doc:any)=>{
+        docId = doc.id
         setCards((cards:Card[]) => [...cards,{
           id: doc.id,
           ...payload
         }])
         toast.success("Tarjeta agregada correctamente")
       })
+
+      const budgetRef = collection(db, "users", user.uid, "budgets")
+      await addDoc(budgetRef, {
+        amount: 0,
+        credit_card: docId,
+        category: "Tarjetas",
+        name: payload.name,
+        paid: false,
+        pay_date: payload.cut_date
+      })
+
       setLoading(false)
       onClose()
     })
