@@ -6,6 +6,7 @@ import {Budget} from "@/types/Budget";
 import BudgetModal from "@/app/home/budgets/components/modals/BudgetModal";
 import {FaGear} from "react-icons/fa6";
 import BudgetConfigModal from "@/app/home/budgets/components/modals/BudgetConfigModal";
+import useUserState from "@/utils/hook/useUserState";
 
 const BudgetsPage = () => {
 
@@ -13,6 +14,12 @@ const BudgetsPage = () => {
   const [openGear, setOpenGear] = useState(false)
   const [budgets, setBudgets] = useState<any[]>([])
   const [creditCards, setCreditCards] = useState<any[]>([])
+  const [user,setUser] = useState<any>()
+  const userValue = useUserState()
+
+  useEffect(() => {
+    setUser(userValue)
+  }, [userValue])
 
   const getBudgets = async () => {
     setBudgets([])
@@ -68,6 +75,16 @@ const BudgetsPage = () => {
     }, 0);
   };
 
+  const calculateFirstFortnight = (start:number,end:number) => {
+    const firstFortnight = budgets.filter((budget:Budget) => {
+      return parseInt(budget.pay_date) >= start && parseInt(budget.pay_date) <= end
+    })
+    return firstFortnight.reduce((acc, budget) => {
+      return acc + budget.amount;
+    }, 0);
+
+  }
+
   const handleIsPaid = async (budget: Budget) => {
     auth.onAuthStateChanged(async (user) => {
       if (user === null) return
@@ -94,14 +111,15 @@ const BudgetsPage = () => {
       {open && <BudgetModal setBudgets={setBudgets} creditCards={creditCards} open={open} onClose={() => {
         setOpen(false)
       }}/>}
-      {openGear && <BudgetConfigModal onClose={()=>{setOpenGear(false)}} show={openGear} />}
+
+      {openGear && <BudgetConfigModal setUser={setUser} onClose={()=>{setOpenGear(false)}} show={openGear} />}
 
       <div className="flex flex-row">
         <span className="font-bold text-xl">Presupuesto</span>
       </div>
       <div className="flex flex-row justify-end gap-x-4 mt-12">
         <button
-          onClick={() => setOpen(true)}
+          onClick={() => setOpenGear(true)}
           className="bg-gray-900 hover:bg-gray-800 text-white rounded-md px-4 py-2"
         >
           <FaGear className="text-white w-6 h-6"/>
@@ -112,6 +130,22 @@ const BudgetsPage = () => {
         >
           + Agregar presupuesto
         </button>
+      </div>
+      <div className="flex flex-row justify-center gap-x-4 mt-8">
+        <div className="flex flex-col bg-white p-4 shadow rounded-md w-full h-24">
+          <span className="font-bold mx-auto">Quincena</span>
+          <span className="mx-auto">{parseFloat(user?.fortnight).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
+        </div>
+        <div className="flex flex-col bg-white p-4 shadow rounded-md w-full h-24">
+          <span className="font-bold mx-auto">Mes</span>
+          <span className="mx-auto">{(parseFloat(user?.fortnight)*2).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
+        </div>
       </div>
       <div className="flex flex-row mt-12">
         <table className="w-full">
@@ -162,9 +196,14 @@ const BudgetsPage = () => {
       </div>
       <hr className="my-4"/>
       <span>Cálculo por Quincena y Mes</span>
-      <div className="flex flex-row justify-between px-4 md:px-8">
-        <span>1ra Quincena:</span>
-        <span>2ra Quincena:</span>
+      <div className="flex flex-col">
+        <div className="bg-white p-4 shadow rounded-md w-full h-24">
+          <span>1ra Quincena: {calculateFirstFortnight(1, 15)}</span>
+        </div>
+        <div className="bg-white p-4 shadow rounded-md w-full h-24">
+          <span>2ra Quincena: {calculateFirstFortnight(16, 29)}</span>
+        </div>
+
       </div>
 
     </div>
