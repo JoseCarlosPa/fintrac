@@ -1,7 +1,7 @@
 "use client"
 import {useEffect, useRef, useState} from "react";
 import {db, auth} from "@/firebase";
-import {collection, query, getDocs, orderBy } from "firebase/firestore";
+import {collection, query, getDocs, orderBy, doc, updateDoc} from "firebase/firestore";
 import {Budget} from "@/types/Budget";
 import {Card} from "@/types/Card";
 import BudgetModal from "@/app/home/budgets/components/modals/BudgetModal";
@@ -89,6 +89,29 @@ const BudgetsPage = () => {
     return total;
   };
 
+  const handleIsPaid = async (budget: Budget) => {
+    auth.onAuthStateChanged(async (user) => {
+      if (user === null) return
+      const budgetRef = doc(db, 'users', user.uid, 'budgets', budget.id)
+      const payload = {
+        paid: !budget.paid
+      }
+      await updateDoc(budgetRef, payload).then(() => {
+        console.log('handleIsPaid', budgetRef, payload)
+
+        setBudgets((prevBudgets) => {
+          return prevBudgets.map((prevBudget) => {
+            if (prevBudget.id === budget.id) {
+              return {...prevBudget, paid: !prevBudget.paid}
+            }
+            return prevBudget
+          })
+
+        })
+      })
+    })
+  }
+
 
 
   return(
@@ -126,8 +149,8 @@ const BudgetsPage = () => {
             <tbody>
             {orderedBudgets().map((budget: Budget) => (
                 <tr key={budget.id}>
-                  <td className=" px-2 py-2 text-sm border border-gray-400 text-blue-700">{budget.name}</td>
-                  <td className=" px-2 py-2 text-sm border border-gray-400">{(budget.amount).toLocaleString('es-MX',{
+                  <td className=" px-2 py-2 text-sm border border-gray-400 text-blue-700">{budget?.name}</td>
+                  <td className=" px-2 py-2 text-sm border border-gray-400">{(budget?.amount)?.toLocaleString('es-MX',{
                     style: 'currency',
                     currency: 'MXN'
 
@@ -135,8 +158,9 @@ const BudgetsPage = () => {
                   <td className=" px-2 py-2 text-sm border border-gray-400">{`${budget.pay_date}/${monthAndYear()}`}</td>
                   <td className=" px-2 py-2 text-sm border border-gray-400 text-center">
                     <input
+                      onChange={()=>{handleIsPaid(budget)}}
                         className={`form-checkbox h-5 w-5 text-gray-600`}
-                        value={budget.paid ? 'true' : 'false'} type="checkbox"/>
+                        checked={budget?.paid} type="checkbox"/>
                   </td>
                 </tr>
 

@@ -45,9 +45,8 @@ const CreditCardBudget = ({card,onTotalChange }:CreditCardBudgetType) => {
     }
 
     useEffect(() => {
-        // Llama a la función onTotalChange con el total calculado
         onTotalChange(total());
-    }, [purchases]); // Llama a la función cuando las compras cambien
+    }, [purchases]);
 
     useEffect(() => {
         getPurchases()
