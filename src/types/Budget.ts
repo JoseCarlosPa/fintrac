@@ -5,4 +5,5 @@ export interface Budget {
   isPaid: boolean
   amount: number
   category: string
+  credit_card: string
 }

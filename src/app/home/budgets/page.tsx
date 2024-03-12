@@ -4,6 +4,7 @@ import {db, auth} from "@/firebase";
 import {collection, query, getDocs, orderBy } from "firebase/firestore";
 import {Budget} from "@/types/Budget";
 import {Card} from "@/types/Card";
+import BudgetModal from "@/app/home/budgets/components/modals/BudgetModal";
 
 const BudgetsPage = () => {
 
@@ -46,6 +47,7 @@ const BudgetsPage = () => {
 
   return(
     <div className="flex flex-col">
+      {open && <BudgetModal setBudgets={setBudgets} creditCards={creditCards} open={open} onClose={()=>{setOpen(false)}} />}
       <div className="flex flex-row">
         <span className="font-bold text-xl">Presupuesto</span>
       </div>

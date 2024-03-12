@@ -17,10 +17,11 @@ type PurchaseType = {
 }
 const Purchase = ({purchase,card,setPurchases}:PurchaseType) => {
   const [openEdit, setOpenEdit] = useState(false)
+  console.log('purchase', purchase?.id)
 
   const deletePurchase = async () => {
     swal.fire({
-      title: '¿Estás seguro?',
+      title: `¿Estás seguro de borrar ${purchase?.name}?`,
       text: "No podrás revertir esto!",
       icon: 'warning',
       showCancelButton: true,
@@ -32,9 +33,7 @@ const Purchase = ({purchase,card,setPurchases}:PurchaseType) => {
         auth.onAuthStateChanged(async (user) => {
           if (user === null) return
           await deleteDoc(doc(db, "users", user.uid, "credit_cards", card.id, "msi", purchase.id))
-          setPurchases((purchases: Purchase[]) => {
-            return purchases.filter(purchase => purchase.id !== purchase.id)
-          })
+            setPurchases((purchases:Purchase[]) => purchases.filter((p:Purchase) => p.id !== purchase.id))
           toast.success("Compra eliminada correctamente")
         })
       }

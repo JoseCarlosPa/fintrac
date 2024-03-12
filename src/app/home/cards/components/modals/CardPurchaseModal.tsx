@@ -21,7 +21,6 @@ const CardPurchaseModal = ({open,onClose,edit,purchase,card,setPurchases}:CardPu
   const [loading, setLoading] = useState(false)
 
   const [payload, setPayload] = useState({
-    id: edit ? purchase?.id : undefined,
     name: edit ? purchase?.name : "",
     payments: edit ? purchase?.payments : undefined,
     paid:  edit ? purchase?.paid : undefined,
@@ -37,9 +36,12 @@ const CardPurchaseModal = ({open,onClose,edit,purchase,card,setPurchases}:CardPu
       if (user === null) return
       const purchasesRef = collection(db,'users',user.uid,'credit_cards',card?.id ,'msi')
       setLoading(true)
-      await addDoc(purchasesRef,payload).then(()=>{
+      await addDoc(purchasesRef,payload).then((doc)=>{
         setLoading(false)
-        setPurchases((purchases:Purchase[]) => [...purchases,payload])
+        setPurchases((purchases:Purchase[]) => [...purchases,{
+          id: doc.id,
+          ...payload
+        }])
         toast.success("Compra agregada correctamente")
         onClose()
       })
@@ -59,8 +61,11 @@ const CardPurchaseModal = ({open,onClose,edit,purchase,card,setPurchases}:CardPu
         setLoading(false)
         setPurchases((prevState:Purchase[]) => {
           return prevState.map(pur => {
-            if(pur.id === payload.id){
-              return payload
+            if(pur.id === purchase.id){
+              return {
+                id: purchase.id,
+                ...payload
+              }
             }
             return pur
           })
