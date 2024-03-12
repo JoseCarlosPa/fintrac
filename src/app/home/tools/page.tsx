@@ -10,7 +10,6 @@ const ToolsPage = () => {
       </div>
       <div className="grid grid-cols-12 mt-12 gap-4">
         <a
-          href={"/home/tools/discount-calculator"}
           className="col-span-12 md:col-span-4 bg-gray-100 shadow rounded-md px-8 py-12 hover:bg-white hover:shadow-lg">
           <div className="mx-auto my-auto flex flex-col">
             <TbDiscount2 className="w-8 h-8 text-yellow-400 mx-auto my-auto"/>
@@ -18,17 +17,18 @@ const ToolsPage = () => {
           </div>
         </a>
         <a
+          href={"/home/tools/discount-calculator"}
           className="col-span-12 md:col-span-4 bg-gray-100 shadow rounded-md px-8 py-12 hover:bg-white hover:shadow-lg">
           <div className="mx-auto my-auto flex flex-col">
             <PiCoinsDuotone className="w-8 h-8 text-blue-500 mx-auto my-auto"/>
-            <span className="text-center font-bold text-lg">Inversion compuesta</span>
+            <span className="text-center font-bold text-lg">Interes compuesto</span>
           </div>
         </a>
         <a
           className="col-span-12 md:col-span-4 bg-gray-100 shadow rounded-md px-8 py-12 hover:bg-white hover:shadow-lg">
           <div className="mx-auto my-auto flex flex-col">
             <PiCoinVerticalDuotone className="w-8 h-8 text-blue-500 mx-auto my-auto"/>
-            <span className="text-center font-bold text-lg">Inversion Simple</span>
+            <span className="text-center font-bold text-lg">Interes Simple</span>
           </div>
         </a>
         <a
