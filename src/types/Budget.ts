@@ -2,7 +2,7 @@ export interface Budget {
   id: string
   name: string
   pay_date: string
-  isPaid: boolean
+  paid: boolean
   amount: number
   category: string
   credit_card: string

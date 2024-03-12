@@ -26,7 +26,8 @@ const BudgetModal = ({open, onClose,creditCards,edit,budget,setBudgets}: BudgetM
         amount: edit ? budget?.amount : undefined,
         category: edit ? budget?.category : '',
         pay_date: edit ? budget?.pay_date : '',
-        credit_card: edit ? budget?.credit_card : ''
+        credit_card: edit ? budget?.credit_card : '',
+        paid: false
     })
 
     const AddBudget = async () => {
