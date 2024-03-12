@@ -33,6 +33,7 @@ const ToolsPage = () => {
           </div>
         </a>
         <a
+          href={"/home/tools/amortization-table"}
           className="col-span-12 md:col-span-4 bg-gray-100 shadow rounded-md px-8 py-12 hover:bg-white hover:shadow-lg">
           <div className="mx-auto my-auto flex flex-col">
             <BsTable  className="w-8 h-8 text-green-500 mx-auto my-auto"/>
