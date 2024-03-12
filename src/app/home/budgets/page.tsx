@@ -138,22 +138,6 @@ const BudgetsPage = () => {
           + Agregar presupuesto
         </button>
       </div>
-      <div className="flex flex-row justify-center gap-x-4 mt-8">
-        <div className="flex flex-col bg-white p-4 shadow rounded-md w-full h-24">
-          <span className="font-bold mx-auto">Quincena</span>
-          <span className="mx-auto">{parseFloat(user?.fortnight).toLocaleString('es-MX', {
-            style: 'currency',
-            currency: 'MXN'
-          })}</span>
-        </div>
-        <div className="flex flex-col bg-white p-4 shadow rounded-md w-full h-24">
-          <span className="font-bold mx-auto">Mes</span>
-          <span className="mx-auto">{(parseFloat(user?.fortnight) * 2).toLocaleString('es-MX', {
-            style: 'currency',
-            currency: 'MXN'
-          })}</span>
-        </div>
-      </div>
       <div className="flex flex-row mt-12">
         <table className="w-full">
           <thead>
@@ -201,39 +185,38 @@ const BudgetsPage = () => {
           </tbody>
         </table>
       </div>
-      <hr className="my-4"/>
-      <span>Cálculo por Quincena y Mes</span>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col bg-white p-4 shadow rounded-md w-full h-24">
-          <span className="my-auto">1ra Quincena: {parseFloat(calculateFirstFortnight(1, 15)).toLocaleString('es-MX', {
+      <span className="font-bold my-4">Cálculo por Quincena y Mes</span>
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-12 md:col-span-4 flex flex-col bg-gray-100 p-4 shadow rounded-md w-full h-24">
+          <span className="my-auto"><b>1ra Quincena:</b> {parseFloat(calculateFirstFortnight(1, 15)).toLocaleString('es-MX', {
             style: 'currency',
             currency: 'MXN'
           })}</span>
           <span
-            className="my-auto">Sobran: {(parseFloat(user?.fortnight) - parseFloat(calculateFirstFortnight(1, 15))).toLocaleString('es-MX', {
+            className=" my-auto"><b>Sobran:</b> {(parseFloat(user?.fortnight) - parseFloat(calculateFirstFortnight(1, 15))).toLocaleString('es-MX', {
             style: 'currency',
             currency: 'MXN'
           })}</span>
         </div>
-        <div className="flex flex-col bg-white p-4 shadow rounded-md w-full h-24">
-          <span className="my-auto">2ra Quincena: {parseFloat(calculateFirstFortnight(16, 31)).toLocaleString('es-MX', {
+        <div className="col-span-12 md:col-span-4 flex flex-col bg-gray-100 p-4 shadow rounded-md w-full h-24">
+          <span className="my-auto"><b>2ra Quincena:</b> {parseFloat(calculateFirstFortnight(16, 31)).toLocaleString('es-MX', {
             style: 'currency',
             currency: 'MXN'
           })}</span>
           <span
-            className="my-auto">Sobran: {(parseFloat(user?.fortnight) - parseFloat(calculateFirstFortnight(16, 31))).toLocaleString('es-MX', {
+            className="my-auto"><b>Sobran:</b> {(parseFloat(user?.fortnight) - parseFloat(calculateFirstFortnight(16, 31))).toLocaleString('es-MX', {
             style: 'currency',
             currency: 'MXN'
           })}</span>
         </div>
 
-        <div className="flex flex-col bg-white p-4 shadow rounded-md w-full h-24">
-          <span className="my-auto">Mes: {parseFloat(calculateFirstFortnight(1, 31)).toLocaleString('es-MX', {
+        <div className="col-span-12 md:col-span-4 flex flex-col bg-gray-100 p-4 shadow rounded-md w-full h-24">
+          <span className="my-auto"><b>Mes:</b> {parseFloat(calculateFirstFortnight(1, 31)).toLocaleString('es-MX', {
             style: 'currency',
             currency: 'MXN'
           })}</span>
           <span
-            className="my-auto">Sobran: {((parseFloat(user?.fortnight)*2) - parseFloat(calculateFirstFortnight(1, 31))).toLocaleString('es-MX', {
+            className="my-auto"><b>Sobran:</b> {((parseFloat(user?.fortnight)*2) - parseFloat(calculateFirstFortnight(1, 31))).toLocaleString('es-MX', {
             style: 'currency',
             currency: 'MXN'
           })}</span>

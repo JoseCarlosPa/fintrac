@@ -24,7 +24,7 @@ const CurrencyCard = ({currency, baseCurrency,setCurrencies}: CurrencyCardProps)
   }
 
   useEffect(() => {
-    //fetchCurrencies()
+    fetchCurrencies()
   }, []);
 
   const askDelete = () => {
