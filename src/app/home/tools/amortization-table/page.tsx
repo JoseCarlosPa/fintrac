@@ -1,5 +1,6 @@
 "use client"
 import {useState} from "react";
+import * as XLSX from 'xlsx';
 
 type AmortizationRow = {
   month: number;
@@ -14,7 +15,7 @@ const AmortizationTablePage = () => {
   const [interestRate, setInterestRate] = useState<number>(0);
   const [loanTerm, setLoanTerm] = useState<number>(0);
   const [amortizationTable, setAmortizationTable] = useState<AmortizationRow[]>([]);
-
+  const [showDownload, setShowDownload] = useState<boolean>(false);
   const handleCalculate = () => {
     const rate = (interestRate / 100)/12;
     const monthlyPayment = (loanAmount * rate) / (1 - (1/( Math.pow(1 + rate, loanTerm))));
@@ -37,7 +38,15 @@ const AmortizationTablePage = () => {
       });
     }
 
+    setShowDownload(true);
     setAmortizationTable(table);
+  };
+
+  const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(amortizationTable);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Amortization Table');
+    XLSX.writeFile(wb, 'amortization_table.xlsx');
   };
 
   return (
@@ -65,10 +74,21 @@ const AmortizationTablePage = () => {
           </div>
         </div>
 
-        <button onClick={handleCalculate}
-                className="w-full bg-gray-900 rounded text-white my-4">
-          Calcular
-        </button>
+        <div className="flex flex-col md:flex-row justify-center gap-4  my-4">
+
+          <button onClick={handleCalculate}
+                  className="w-full bg-gray-900 rounded text-white">
+            Calcular
+          </button>
+
+          {showDownload &&
+              <button onClick={exportToExcel}
+                      className="w-full bg-gray-900 rounded text-white">
+                  Exportar a Excel
+              </button>
+          }
+        </div>
+
         <div className="flex flex-row w-full overflow-x-auto">
           <table className="mt-4 w-full border-collapse ">
             <thead>
