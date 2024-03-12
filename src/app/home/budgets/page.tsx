@@ -1,12 +1,11 @@
 "use client"
 import {useEffect, useState} from "react";
 import {auth, db} from "@/firebase";
-import {collection, doc, getDocs, orderBy, query, updateDoc} from "firebase/firestore";
+import {collection, doc, getDocs, orderBy, query, updateDoc,getDoc} from "firebase/firestore";
 import {Budget} from "@/types/Budget";
 import BudgetModal from "@/app/home/budgets/components/modals/BudgetModal";
 import {FaGear} from "react-icons/fa6";
 import BudgetConfigModal from "@/app/home/budgets/components/modals/BudgetConfigModal";
-import useUserState from "@/utils/hook/useUserState";
 
 const BudgetsPage = () => {
 
@@ -14,12 +13,7 @@ const BudgetsPage = () => {
   const [openGear, setOpenGear] = useState(false)
   const [budgets, setBudgets] = useState<any[]>([])
   const [creditCards, setCreditCards] = useState<any[]>([])
-  const [user,setUser] = useState<any>()
-  const userValue = useUserState()
-
-  useEffect(() => {
-    setUser(userValue)
-  }, [userValue])
+  const [user, setUser] = useState<any>()
 
   const getBudgets = async () => {
     setBudgets([])
@@ -39,7 +33,7 @@ const BudgetsPage = () => {
     setCreditCards([])
     auth.onAuthStateChanged((user) => {
       if (user === null) return
-      const creditCardsArray =  query(collection(db, "users", user.uid, "credit_cards"), orderBy('name', 'desc'))
+      const creditCardsArray = query(collection(db, "users", user.uid, "credit_cards"), orderBy('name', 'desc'))
       const creditCardsSnapshot = getDocs(creditCardsArray)
       creditCardsSnapshot.then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -49,22 +43,33 @@ const BudgetsPage = () => {
     })
   }
 
+  const getUserData = async () => {
+    auth.onAuthStateChanged(async (user) => {
+      if (user === null) return
+      const userRef = doc(db, 'users', user.uid)
+      const userSnapshot = await getDoc(userRef)
+      setUser(userSnapshot.data())
+    })
+
+  }
+
   useEffect(() => {
     getBudgets()
     getCreditCards()
+    getUserData()
   }, []);
 
-  const monthAndYear = () =>{
+  const monthAndYear = () => {
     const date = new Date()
-    const month = date.toLocaleString('default', { month: 'short' })
+    const month = date.toLocaleString('default', {month: 'short'})
     const year = date.getFullYear()
     return `${month}/${year}`
   }
 
   const orderedBudgets = () => {
-    return budgets.sort((a:Budget,b:Budget) => {
-      if(parseInt(a.pay_date) > parseInt(b.pay_date)) return 1
-      if(parseInt(a.pay_date) < parseInt(b.pay_date)) return -1
+    return budgets.sort((a: Budget, b: Budget) => {
+      if (parseInt(a.pay_date) > parseInt(b.pay_date)) return 1
+      if (parseInt(a.pay_date) < parseInt(b.pay_date)) return -1
       return 0
     })
   }
@@ -75,8 +80,8 @@ const BudgetsPage = () => {
     }, 0);
   };
 
-  const calculateFirstFortnight = (start:number,end:number) => {
-    const firstFortnight = budgets.filter((budget:Budget) => {
+  const calculateFirstFortnight = (start: number, end: number) => {
+    const firstFortnight = budgets.filter((budget: Budget) => {
       return parseInt(budget.pay_date) >= start && parseInt(budget.pay_date) <= end
     })
     return firstFortnight.reduce((acc, budget) => {
@@ -106,13 +111,15 @@ const BudgetsPage = () => {
     })
   }
 
-  return(
+  return (
     <div className="flex flex-col">
       {open && <BudgetModal setBudgets={setBudgets} creditCards={creditCards} open={open} onClose={() => {
         setOpen(false)
       }}/>}
 
-      {openGear && <BudgetConfigModal setUser={setUser} onClose={()=>{setOpenGear(false)}} show={openGear} />}
+      {openGear && <BudgetConfigModal setUser={setUser} onClose={() => {
+        setOpenGear(false)
+      }} show={openGear}/>}
 
       <div className="flex flex-row">
         <span className="font-bold text-xl">Presupuesto</span>
@@ -141,7 +148,7 @@ const BudgetsPage = () => {
         </div>
         <div className="flex flex-col bg-white p-4 shadow rounded-md w-full h-24">
           <span className="font-bold mx-auto">Mes</span>
-          <span className="mx-auto">{(parseFloat(user?.fortnight)*2).toLocaleString('es-MX', {
+          <span className="mx-auto">{(parseFloat(user?.fortnight) * 2).toLocaleString('es-MX', {
             style: 'currency',
             currency: 'MXN'
           })}</span>
@@ -197,14 +204,36 @@ const BudgetsPage = () => {
       <hr className="my-4"/>
       <span>Cálculo por Quincena y Mes</span>
       <div className="flex flex-col gap-4">
-        <div className="bg-white p-4 shadow rounded-md w-full h-24">
-          <span>1ra Quincena: {parseFloat(calculateFirstFortnight(1, 15)).toLocaleString('es-MX',{
+        <div className="flex flex-col bg-white p-4 shadow rounded-md w-full h-24">
+          <span className="my-auto">1ra Quincena: {parseFloat(calculateFirstFortnight(1, 15)).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
+          <span
+            className="my-auto">Sobran: {(parseFloat(user?.fortnight) - parseFloat(calculateFirstFortnight(1, 15))).toLocaleString('es-MX', {
             style: 'currency',
             currency: 'MXN'
           })}</span>
         </div>
-        <div className="bg-white p-4 shadow rounded-md w-full h-24">
-          <span>2ra Quincena: {parseFloat(calculateFirstFortnight(16, 29)).toLocaleString('es-MX',{
+        <div className="flex flex-col bg-white p-4 shadow rounded-md w-full h-24">
+          <span className="my-auto">2ra Quincena: {parseFloat(calculateFirstFortnight(16, 31)).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
+          <span
+            className="my-auto">Sobran: {(parseFloat(user?.fortnight) - parseFloat(calculateFirstFortnight(16, 31))).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
+        </div>
+
+        <div className="flex flex-col bg-white p-4 shadow rounded-md w-full h-24">
+          <span className="my-auto">Mes: {parseFloat(calculateFirstFortnight(1, 31)).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
+          <span
+            className="my-auto">Sobran: {((parseFloat(user?.fortnight)*2) - parseFloat(calculateFirstFortnight(1, 31))).toLocaleString('es-MX', {
             style: 'currency',
             currency: 'MXN'
           })}</span>
