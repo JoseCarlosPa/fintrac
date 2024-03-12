@@ -196,12 +196,18 @@ const BudgetsPage = () => {
       </div>
       <hr className="my-4"/>
       <span>Cálculo por Quincena y Mes</span>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
         <div className="bg-white p-4 shadow rounded-md w-full h-24">
-          <span>1ra Quincena: {calculateFirstFortnight(1, 15)}</span>
+          <span>1ra Quincena: {parseFloat(calculateFirstFortnight(1, 15)).toLocaleString('es-MX',{
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
         </div>
         <div className="bg-white p-4 shadow rounded-md w-full h-24">
-          <span>2ra Quincena: {calculateFirstFortnight(16, 29)}</span>
+          <span>2ra Quincena: {parseFloat(calculateFirstFortnight(16, 29)).toLocaleString('es-MX',{
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
         </div>
 
       </div>
