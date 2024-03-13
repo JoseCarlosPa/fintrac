@@ -46,7 +46,7 @@ const CompoundInterestPage = () => {
       <div className="flex flex-row my-4">
         <span className="font-bold text-xl">Calculadora de Interes compuesto</span>
       </div>
-      <div className="grid grid-cols-12">
+      <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 w-1/2 flex flex-col">
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Monto</label>
           <input

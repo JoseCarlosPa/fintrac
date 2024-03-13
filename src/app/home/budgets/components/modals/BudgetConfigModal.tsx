@@ -9,11 +9,12 @@ type BudgetConfigModalProps = {
   show: boolean;
   onClose: () => void;
   setUser:  Dispatch<any>
+  user: any
 }
-const BudgetConfigModal = ({show,onClose,setUser}:BudgetConfigModalProps) => {
+const BudgetConfigModal = ({show,onClose,setUser,user}:BudgetConfigModalProps) => {
 
   const [payload, setPayload] = useState({
-    fortnight: 0,
+    fortnight: user.fortnight || 0,
   })
   const [loading, setLoading] = useState(false)
 

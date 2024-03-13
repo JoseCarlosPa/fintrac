@@ -117,14 +117,11 @@ const BudgetsPage = () => {
         setOpen(false)
       }}/>}
 
-      {openGear && <BudgetConfigModal setUser={setUser} onClose={() => {
+      {openGear && <BudgetConfigModal user={user} setUser={setUser} onClose={() => {
         setOpenGear(false)
       }} show={openGear}/>}
 
-      <div className="flex flex-row">
-        <span className="font-bold text-xl">Presupuesto</span>
-      </div>
-      <div className="flex flex-row justify-end gap-x-4 mt-12">
+      <div className="flex flex-row justify-end gap-x-4 mt-4">
         <button
           onClick={() => setOpenGear(true)}
           className="bg-gray-900 hover:bg-gray-800 text-white rounded-md px-4 py-2"
@@ -138,6 +135,46 @@ const BudgetsPage = () => {
           + Agregar presupuesto
         </button>
       </div>
+      <span className="font-bold my-4">Cálculo por Quincena y Mes</span>
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-12 md:col-span-4 flex flex-col bg-gray-100 p-4 shadow rounded-md w-full h-24">
+          <span
+            className="my-auto"><b>1ra Quincena:</b> {parseFloat(calculateFirstFortnight(1, 15)).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
+          <span
+            className=" my-auto"><b>Sobran:</b> {(parseFloat(user?.fortnight) - parseFloat(calculateFirstFortnight(1, 15))).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
+        </div>
+        <div className="col-span-12 md:col-span-4 flex flex-col bg-gray-100 p-4 shadow rounded-md w-full h-24">
+          <span
+            className="my-auto"><b>2ra Quincena:</b> {parseFloat(calculateFirstFortnight(16, 31)).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
+          <span
+            className="my-auto"><b>Sobran:</b> {(parseFloat(user?.fortnight) - parseFloat(calculateFirstFortnight(16, 31))).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
+        </div>
+
+        <div className="col-span-12 md:col-span-4 flex flex-col bg-gray-100 p-4 shadow rounded-md w-full h-24">
+          <span className="my-auto"><b>Mes:</b> {parseFloat(calculateFirstFortnight(1, 31)).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
+          <span
+            className="my-auto"><b>Sobran:</b> {((parseFloat(user?.fortnight) * 2) - parseFloat(calculateFirstFortnight(1, 31))).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })}</span>
+        </div>
+
+      </div>
       <div className="flex flex-row mt-12">
         <table className="w-full">
           <thead>
@@ -149,8 +186,8 @@ const BudgetsPage = () => {
           </tr>
           </thead>
           <tbody>
-          {orderedBudgets().map((budget: Budget) => (
-            <tr key={budget.id}>
+          {orderedBudgets().map((budget: Budget, index: number) => (
+            <tr key={budget.id} className={`${index % 2 == 0 ? 'bg-gray-100' : 'bg-gray-200'}`}>
               <td className=" px-2 py-2 text-sm border border-gray-400 text-blue-700">{budget?.name}</td>
               <td className=" px-2 py-2 text-sm border border-gray-400">{(budget?.amount)?.toLocaleString('es-MX', {
                 style: 'currency',
@@ -185,44 +222,7 @@ const BudgetsPage = () => {
           </tbody>
         </table>
       </div>
-      <span className="font-bold my-4">Cálculo por Quincena y Mes</span>
-      <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-12 md:col-span-4 flex flex-col bg-gray-100 p-4 shadow rounded-md w-full h-24">
-          <span className="my-auto"><b>1ra Quincena:</b> {parseFloat(calculateFirstFortnight(1, 15)).toLocaleString('es-MX', {
-            style: 'currency',
-            currency: 'MXN'
-          })}</span>
-          <span
-            className=" my-auto"><b>Sobran:</b> {(parseFloat(user?.fortnight) - parseFloat(calculateFirstFortnight(1, 15))).toLocaleString('es-MX', {
-            style: 'currency',
-            currency: 'MXN'
-          })}</span>
-        </div>
-        <div className="col-span-12 md:col-span-4 flex flex-col bg-gray-100 p-4 shadow rounded-md w-full h-24">
-          <span className="my-auto"><b>2ra Quincena:</b> {parseFloat(calculateFirstFortnight(16, 31)).toLocaleString('es-MX', {
-            style: 'currency',
-            currency: 'MXN'
-          })}</span>
-          <span
-            className="my-auto"><b>Sobran:</b> {(parseFloat(user?.fortnight) - parseFloat(calculateFirstFortnight(16, 31))).toLocaleString('es-MX', {
-            style: 'currency',
-            currency: 'MXN'
-          })}</span>
-        </div>
 
-        <div className="col-span-12 md:col-span-4 flex flex-col bg-gray-100 p-4 shadow rounded-md w-full h-24">
-          <span className="my-auto"><b>Mes:</b> {parseFloat(calculateFirstFortnight(1, 31)).toLocaleString('es-MX', {
-            style: 'currency',
-            currency: 'MXN'
-          })}</span>
-          <span
-            className="my-auto"><b>Sobran:</b> {((parseFloat(user?.fortnight)*2) - parseFloat(calculateFirstFortnight(1, 31))).toLocaleString('es-MX', {
-            style: 'currency',
-            currency: 'MXN'
-          })}</span>
-        </div>
-
-      </div>
 
     </div>
   );

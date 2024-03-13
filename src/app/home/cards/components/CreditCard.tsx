@@ -9,7 +9,8 @@ import {toast} from "sonner";
 import {Dispatch, SetStateAction, useState} from "react";
 import CardModal from "@/app/home/cards/components/modals/CardModal";
 import {Card} from "@/types/Card";
-import {BiSolidPurchaseTag} from "react-icons/bi";
+import {FaRegCircleQuestion} from "react-icons/fa6";
+import RiskModal from "@/app/home/cards/components/modals/RiskModal";
 
 type CreditCardProps = {
   card: Card
@@ -18,6 +19,7 @@ type CreditCardProps = {
 const CreditCard = ({card, setCards}: CreditCardProps) => {
 
   const [open, setOpen] = useState(false)
+  const [showRisk, setShowRisk] = useState(false)
 
   const deleteCard = () => {
     swal.fire({
@@ -46,6 +48,9 @@ const CreditCard = ({card, setCards}: CreditCardProps) => {
     <>
       {open && <CardModal edit setCards={setCards} open={open} onClose={() => {
         setOpen(false)
+      }} card={card}/>}
+      {showRisk && <RiskModal open={showRisk} onClose={() => {
+        setShowRisk(false)
       }} card={card}/>}
       <div
         className={`flex flex-col justify-around bg-gradient-to-r ${card?.color ? ` from-${card?.color}-500  to-${card?.color}-400` : 'bg-gray-800'}  px-4 py-2 md:p-4 border border-white border-opacity-30 rounded-lg shadow-md mx-auto mb-6`}
@@ -118,6 +123,11 @@ const CreditCard = ({card, setCards}: CreditCardProps) => {
             </span>
           <div className="flex flex-row justify-end ">
             <div className="flex flex-row gap-x-4 my-auto">
+              <FaRegCircleQuestion
+                onClick={() => {
+                  setShowRisk(true)
+                }}
+                className="w-5 h-5 md:w-4 md:h-4 my-auto text-blue-500 cursor-pointer"/>
               <MdEdit
                 onClick={() => {
                   setOpen(true)
