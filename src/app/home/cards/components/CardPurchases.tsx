@@ -54,7 +54,7 @@ const CardPurchases = ({card}: CardPurchasesProps) => {
               credit_card: card.id,
               category: "Tarjetas",
               name: card.name,
-              paid: false,
+              paid: doc.data().paid,
               pay_date: card.cut_date
             })
           }
