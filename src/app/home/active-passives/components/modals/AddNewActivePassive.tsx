@@ -55,7 +55,7 @@ const AddNewActivePassive = ({show,onClose,activePassive,edit,setActivePassives}
     return(
         <Modal show={show} onClose={onClose} >
             <div className="flex flex-col p-4 gap-4">
-                <span className="text-xl font-bold">Agregar nuevo activo o Pasivo</span>
+                <span className="text-xl font-bold">{edit ? `Editar ${activePassive?.name}` : 'Agregar nuevo activo o Pasivo'}</span>
                 <div className="grid grid-cols-12 gap-4">
                     <div className="col-span-12 flex flex-col">
                         <label>Nombre</label>
