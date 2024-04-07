@@ -43,14 +43,14 @@ const BudgetConfigModal = ({show,onClose,setUser,user}:BudgetConfigModalProps) =
         </div>
         <div className="flex flex-col">
           <label htmlFor="amount">¿Cuantas veces te pagan al mes?</label>
-          <input type="number" min={0}
+          <input type="number"
                  value={payload.numberOfFortnights}
                  onChange={(e) => setPayload({...payload, numberOfFortnights: parseInt(e.target.value)})}
                  className="border border-gray-400 rounded-md p-2"/>
         </div>
         <div className="flex flex-col">
           <label htmlFor="amount">¿Cuanto ganas en cada pago?</label>
-          <input type="number" min={0}
+          <input type="number"
                  value={payload.fortnight}
                  onChange={(e) => setPayload({...payload, fortnight: parseInt(e.target.value)})}
                  className="border border-gray-400 rounded-md p-2"/>

@@ -125,7 +125,7 @@ const CardModal = ({open, onClose, setCards,edit,card}: AddNewCardModalProps) =>
             <input
               value={payload.number}
               onChange={(e) => setPayload({...payload, number: e.target.value})}
-              type="number" min={0} max={9999} placeholder="Número de tarjeta (Ultimos 4 digitos )"
+              type="number" max={9999} placeholder="Número de tarjeta (Ultimos 4 digitos )"
               className="border-2 border-gray-200 p-2 rounded-md w-full"/>
           </div>
           <div className="col-span-12 md:col-span-3 flex flex-col justify-center mt-4">
@@ -165,7 +165,7 @@ const CardModal = ({open, onClose, setCards,edit,card}: AddNewCardModalProps) =>
             <input
               value={payload.maxAmount}
               onChange={(e) => setPayload({...payload, maxAmount: e.target.value})}
-              type="number" min={0} placeholder="Monto Maximo de la tarjeta"
+              type="number"  placeholder="Monto Maximo de la tarjeta"
               className="border-2 border-gray-200 p-2 rounded-md w-full"/>
           </div>
           <div className="col-span-12 md:col-span-6 flex flex-col justify-center mt-4">
@@ -173,7 +173,7 @@ const CardModal = ({open, onClose, setCards,edit,card}: AddNewCardModalProps) =>
             <input
               value={payload.usedAmount}
               onChange={(e) => setPayload({...payload, usedAmount: e.target.value})}
-              type="number" min={0} placeholder="Monto Usado de la tarjeta"
+              type="number"  placeholder="Monto Usado de la tarjeta"
               className="border-2 border-gray-200 p-2 rounded-md w-full"/>
           </div>
           <div className="flex flex-row justify-center gap-x-4 mt-4 col-span-12 ">

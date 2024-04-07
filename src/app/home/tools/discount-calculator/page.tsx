@@ -29,7 +29,7 @@ const DiscountCalculatorPage = () => {
             value={data.amount}
             onChange={(e) => setData({...data, amount: parseFloat(e.target.value)})}
             className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            type="number" min={0}/>
+            type="number" />
         </div>
         <div className="col-span-12 md:col-span-4 flex flex-col">
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Descuento %</label>
@@ -37,7 +37,7 @@ const DiscountCalculatorPage = () => {
             value={data.rate}
             onChange={(e) => setData({...data, rate: parseFloat(e.target.value)})}
             className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            type="number" min={0}/>
+            type="number" />
         </div>
       </div>
       <div className="col-span-12  flex flex-col my-6">

@@ -79,11 +79,10 @@ const PieChart = () => {
   }, []);
 
 
-
-
-
   return(
-    <Pie data={data} />
+      <div className="flex flex-row mx-auto my-auto">
+        <Pie data={data} />
+      </div>
   );
 
 }

@@ -36,7 +36,7 @@ const MenuBar = ({email, onClick}: NavBarMobileProps) => {
       <NavBarButton onClick={() => {
         router.push('/home/month-outcomes')
         onClick()
-      }} icon={<IoIosToday className="my-auto w-4 h-4 mr-2 "/>} label={'Gastos del mes'}/>
+      }} icon={<IoIosToday className="my-auto w-4 h-4 mr-2 "/>} label={'Gastos no presupuestados'}/>
       <NavBarButton onClick={() => {
         router.push('/home/cards')
         onClick()
