@@ -50,7 +50,11 @@ const MonthOutcomesPage = () => {
             const outcomesSnapshot = await getDocs(outcomesRef)
             outcomesSnapshot.forEach((doc) => {
                 const outcome = doc.data()
+                // Check if the day is 1rst of the month
+
                 const date = new Date(outcome.date)
+
+
                 if (date.getMonth() === month && date.getFullYear() === year) {
                     setOutcomes((prev: any) => [...prev, {id: doc.id, ...outcome}])
                 }
@@ -63,7 +67,6 @@ const MonthOutcomesPage = () => {
         outcomes.forEach((outcome) => {
             total += Number(outcome.amount)
         })
-        console.log(total)
         return total.toLocaleString('es-MX', {style: 'currency', currency: 'MXN'})
 
     }
@@ -76,6 +79,14 @@ const MonthOutcomesPage = () => {
         const dateObj = new Date(date)
         return dateObj.getDate()
 
+    }
+
+    const sortOutcomesByDate = () => {
+        return outcomes.sort((a, b) => {
+            const dateA = new Date(a.date)
+            const dateB = new Date(b.date)
+            return dateA.getDate() - dateB.getDate()
+        })
     }
 
     return (
@@ -116,16 +127,22 @@ const MonthOutcomesPage = () => {
                         <thead>
                         <tr>
                             <th className="px-4 py-2">Día</th>
-                            <th className="px-4 py-2">Categoria</th>
+                            <th className="px-4 py-2">Nombre</th>
                             <th className="px-4 py-2">Monto</th>
                             <th className="px-4 py-2">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {outcomes.map((outcome) => (
+                        {sortOutcomesByDate().map((outcome) => (
                             <tr key={outcome.id}>
                                 <td className="border px-4 py-2">{parseDateOnlyDay(outcome.date)}</td>
-                                <td className="border px-4 py-2">{outcome.category}</td>
+                                <td className="border px-4 py-2">
+                                    <div className="flex flex-col">
+                                        <span className="font-bold">{outcome.category}</span>
+                                       <span className="truncate">{outcome.name}</span>
+                                    </div>
+                                
+                                </td>
                                 <td className="border px-4 py-2">${(outcome.amount)}</td>
                                 <td className="border px-4 py-2">
                                     <button className="bg-gray-900 text-white px-2 py-1 rounded">

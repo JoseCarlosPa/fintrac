@@ -17,7 +17,6 @@ type PurchaseType = {
 }
 const Purchase = ({purchase,card,setPurchases}:PurchaseType) => {
   const [openEdit, setOpenEdit] = useState(false)
-  console.log('purchase', purchase?.id)
 
   const deletePurchase = async () => {
     swal.fire({
