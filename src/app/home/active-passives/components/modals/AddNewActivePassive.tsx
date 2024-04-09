@@ -105,7 +105,7 @@ const AddNewActivePassive = ({show,onClose,activePassive,edit,setActivePassives}
                       <div className="col-span-12 flex flex-col">
                           <label>Meta</label>
                           <input
-                            value={payload.goal}
+                            value={payload.goal !== 0 ? payload.goal : ""}
                             onChange={(e) => setPayload({...payload, goal: Number(e.target.value)})}
                             type="number" className="border border-gray-300 p-1 rounded"/>
                       </div>

@@ -114,6 +114,13 @@ const ActivePassivesPage = () => {
           </div>
           :
           <div className="flex flex-col">
+            <div className="flex flex-row justify-end mb-8">
+              <button
+                onClick={() => setShowAddNewActivePassiveModal(true)}
+                className="rounded bg-gray-900 hover:bg-gray-800 text-white px-3 py-2">+ Agregar Activo
+                / Pasivo
+              </button>
+            </div>
             <div className="flex flex-row gap-4 mb-12">
               <div className="flex flex-col w-1/2 bg-white rounded-md shadow-md p-4">
                 <span className="font-bold">Total Activos</span>
@@ -130,15 +137,7 @@ const ActivePassivesPage = () => {
                 })}</span>
               </div>
             </div>
-
-            <div className="flex flex-row justify-end">
-              <button
-                onClick={() => setShowAddNewActivePassiveModal(true)}
-                className="rounded bg-gray-900 hover:bg-gray-800 text-white px-3 py-2">+ Agregar Activo
-                / Pasivo
-              </button>
-            </div>
-            <div className="flex flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col md:flex-row gap-4">
               <div className="w-full md:w-1/2 flex flex-col gap-4">
                 <div className="font-bold text-xl">Metas</div>
                 {goals.map((activePassive, index) => (
@@ -156,7 +155,7 @@ const ActivePassivesPage = () => {
                             currency: 'MXN'
                           })}</span>
                           <span
-                            className="text-sm"><b>Faltan</b>: {activePassive.goal !== undefined && (activePassive?.goal - activePassive.value ).toLocaleString('es-MX', {
+                            className="text-sm"><b>Faltan</b>: {activePassive.goal !== undefined && (activePassive?.goal - activePassive.value).toLocaleString('es-MX', {
                             style: 'currency',
                             currency: 'MXN'
                           })}</span>

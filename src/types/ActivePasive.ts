@@ -3,7 +3,7 @@ export interface ActivePassive {
     name: string;
     quantity: number;
     type: string;
-    value: number  ;
+    value: number ;
     missing: number ;
     goal?: number | undefined ;
 }
