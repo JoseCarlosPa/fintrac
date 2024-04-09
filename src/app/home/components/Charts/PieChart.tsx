@@ -14,7 +14,7 @@ const PieChart = () => {
     labels: [],
     datasets: [
       {
-        label: '# of Votes',
+        label: 'Gastos planeados por categoría',
         data: [],
         backgroundColor: [],
         borderColor: [],
