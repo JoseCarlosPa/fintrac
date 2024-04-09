@@ -21,7 +21,7 @@ const AddNewActivePassive = ({show,onClose,activePassive,edit,setActivePassives}
         type:activePassive?.type ?? "active",
         value:activePassive?.value ?? 0,
         missing: activePassive?.missing ?? 0,
-        goal: activePassive?.goal ?? undefined,
+        goal: activePassive?.goal ?? 0,
     });
     const [loading, setLoading] = useState(false)
 

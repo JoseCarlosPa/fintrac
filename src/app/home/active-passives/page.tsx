@@ -50,6 +50,11 @@ const ActivePassivesPage = () => {
     actives.forEach((active) => {
       total += active?.value
     })
+
+    goals.forEach((goal) => {
+      total += goal?.value
+    })
+
     return total
   }
 
