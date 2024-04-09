@@ -20,7 +20,8 @@ const AddNewActivePassive = ({show,onClose,activePassive,edit,setActivePassives}
         quantity: activePassive?.quantity ?? 0,
         type:activePassive?.type ?? "active",
         value:activePassive?.value ?? 0,
-        missing: activePassive?.missing ?? 0
+        missing: activePassive?.missing ?? 0,
+        goal: activePassive?.goal ?? undefined,
     });
     const [loading, setLoading] = useState(false)
 
@@ -73,7 +74,7 @@ const AddNewActivePassive = ({show,onClose,activePassive,edit,setActivePassives}
                             type="number" className="border border-gray-300 p-1 rounded"/>
                     </div>
                     <div className="col-span-12 md:col-span-6 flex flex-col">
-                        <label>Valor</label>
+                        <label>Valor(Ahorita tengo)</label>
                         <input
                             value={payload.value}
                             onChange={(e) => setPayload({...payload, value: Number(e.target.value)})}
@@ -82,11 +83,12 @@ const AddNewActivePassive = ({show,onClose,activePassive,edit,setActivePassives}
                     <div className="col-span-12 flex flex-col">
                         <label>Tipo</label>
                         <select
-                            value={payload.type}
-                            onChange={(e) => setPayload({...payload, type: e.target.value})}
-                            className="border border-gray-300 p-1 rounded">
+                          value={payload.type}
+                          onChange={(e) => setPayload({...payload, type: e.target.value})}
+                          className="border border-gray-300 p-1 rounded">
                             <option value={"active"}>Activo</option>
                             <option value={"passive"}>Pasivo</option>
+                            <option value={"goal"}>Objectivo/Meta</option>
                         </select>
                     </div>
 
@@ -98,6 +100,15 @@ const AddNewActivePassive = ({show,onClose,activePassive,edit,setActivePassives}
                                 onChange={(e) => setPayload({...payload, missing: Number(e.target.value)})}
                                 type="number" className="border border-gray-300 p-1 rounded"/>
                         </div>
+                    }
+                    {payload.type === "goal" &&
+                      <div className="col-span-12 flex flex-col">
+                          <label>Meta</label>
+                          <input
+                            value={payload.goal}
+                            onChange={(e) => setPayload({...payload, goal: Number(e.target.value)})}
+                            type="number" className="border border-gray-300 p-1 rounded"/>
+                      </div>
                     }
                     <div className="col-span-12 flex flex-row justify-center gap-4">
                         <button

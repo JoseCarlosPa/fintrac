@@ -35,6 +35,7 @@ const ActivePassivesPage = () => {
 
   const passives = activePassives.filter((activePassive) => activePassive.type === 'passive')
   const actives = activePassives.filter((activePassive) => activePassive.type === 'active')
+  const goals = activePassives.filter((activePassive) => activePassive.type === 'goal')
 
   const calculateTotalPassives = () => {
     let total = 0
@@ -139,11 +140,69 @@ const ActivePassivesPage = () => {
             </div>
             <div className="flex flex flex-col md:flex-row gap-4">
               <div className="w-full md:w-1/2 flex flex-col gap-4">
+                <div className="font-bold text-xl">Metas</div>
+                {goals.map((activePassive, index) => (
+                  <div key={index}
+                       className="flex bg-white px-4 py-2 rounded-md shadow-md w-full md:h-48">
+                    <div className="flex flex-col w-full">
+                      <span className="font-bold text-lg">{activePassive.name}</span>
+                      <div className="flex flex-row justify-between">
+                        <div className="flex flex-row gap-4 mt-4 ">
+                                                      <span
+                                                        className="text-sm"><b>Cantidad</b>: {activePassive.quantity}</span>
+                          <span
+                            className="text-sm"><b>Tengo</b>: {(activePassive.value)?.toLocaleString('es-MX', {
+                            style: 'currency',
+                            currency: 'MXN'
+                          })}</span>
+                          <span
+                            className="text-sm"><b>Faltan</b>: {activePassive.goal !== undefined && (activePassive?.goal - activePassive.value ).toLocaleString('es-MX', {
+                            style: 'currency',
+                            currency: 'MXN'
+                          })}</span>
+                        </div>
+                        <div className="flex flex-row gap-4 my-auto">
+                          <button
+                            onClick={() => {
+                              setSelectedActivePassive(activePassive)
+                              setShowEditActivePassiveModal(true)
+                            }}
+                            className="bg-yellow-500 rounded p-1 text-white md:px-3 md:py-2">
+                            <MdEdit/>
+                          </button>
+                          <button
+                            onClick={() => askForDelete(activePassive)}
+                            className="bg-red-500 text-white p-1 md:px-3 md:py-2 rounded">
+                            <FaTrash/>
+                          </button>
+                        </div>
+                      </div>
+
+
+                      {activePassive.goal !== undefined && activePassive.value !== undefined &&
+                          <div className="flex flex-col gap-4 mt-4">
+                              <div
+                                  className="mt-1 h-2 rounded-r w-full bg-neutral-200 dark:bg-neutral-600">
+                                  <div className="h-2 rounded-r bg-blue-800"
+                                       style={{'width': `${(((activePassive.value) * 100) / activePassive.goal).toFixed(2)}%`}}>
+                                  </div>
+                              </div>
+                              <span
+                                  className="flex flex-row justify-center mt-2">{(((activePassive.value) * 100) / activePassive.goal).toFixed(2)}%
+                                                        </span>
+                          </div>
+                      }
+
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="w-full md:w-1/2 flex flex-col gap-4">
                 <div className="font-bold text-xl">Activos</div>
                 {actives?.map((active, index) => {
                   return (
                     <div key={index}
-                         className="flex bg-white px-4 py-2 rounded-md shadow-md w-full md:h-40">
+                         className="flex bg-white px-4 py-2 rounded-md shadow-md w-full md:h-48">
                       <div className="flex flex-col w-full gap-4">
                         <span className="font-bold text-lg">{active?.name}</span>
                         <div className="flex flex-row justify-between">
@@ -183,11 +242,11 @@ const ActivePassivesPage = () => {
                 <div className="font-bold text-xl">Pasivos</div>
                 {passives.map((activePassive, index) => (
                   <div key={index}
-                       className="flex bg-white px-4 py-2 rounded-md shadow-md w-full md:h-40">
+                       className="flex bg-white px-4 py-2 rounded-md shadow-md w-full md:h-48">
                     <div className="flex flex-col w-full">
                       <span className="font-bold text-lg">{activePassive.name}</span>
                       <div className="flex flex-row justify-between">
-                        <div className="flex flex-row gap-4 mt-4 ">
+                        <div className="flex flex-row gap-2 mt-4 ">
                                                       <span
                                                         className="text-sm"><b>Cantidad</b>: {activePassive.quantity}</span>
                           <span
@@ -201,7 +260,7 @@ const ActivePassivesPage = () => {
                             currency: 'MXN'
                           })}</span>
                         </div>
-                        <div className="flex flex-row gap-4 my-auto">
+                        <div className="flex flex-row gap-2 my-auto">
                           <button
                             onClick={() => {
                               setSelectedActivePassive(activePassive)
