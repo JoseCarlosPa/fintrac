@@ -47,18 +47,18 @@ const OutComePieChart = ({ outcomes }: OutcomePieChartProps) => {
     }, [])
 
     const loadData = () => {
-       setData({
-        labels: [],
-        datasets: [
-            {
-                label: 'Gastos por categoría',
-                data: [],
-                backgroundColor: [],
-                borderColor: [],
-                borderWidth: 1,
-            },
-        ],
-    })
+        setData({
+            labels: [],
+            datasets: [
+                {
+                    label: 'Gastos por categoría',
+                    data: [],
+                    backgroundColor: [],
+                    borderColor: [],
+                    borderWidth: 1,
+                },
+            ],
+        })
         outcomes.forEach((outcome) => {
             setData((prevData: any) => {
                 return {
@@ -87,16 +87,34 @@ const OutComePieChart = ({ outcomes }: OutcomePieChartProps) => {
                 }
             })
         })
-    
+
     }
 
     useEffect(() => {
         loadData()
     }, [outcomes])
 
+    const options = {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function (context:any) {
+                        const value = context.parsed;
+                        console.log('Value',context.parsed)
+                        const label = context.label;
+                        const total = context.dataset.data.reduce((a:any, b:any) => Number(a) + Number(b), 0);
+                        const percentage = ((Number(value) / Number(total)) * 100).toFixed(2);
+                    
+                        return `${label}: ${percentage}% - $${value}`;
+                    }
+                }
+            }
+        }
+    };
+    
     return (
         <div className="flex flex-row mx-auto my-auto">
-            <Pie data={data} />
+            <Pie data={data} options={options} />
         </div>
     );
 }
