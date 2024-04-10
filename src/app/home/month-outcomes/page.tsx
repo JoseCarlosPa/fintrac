@@ -1,10 +1,12 @@
 "use client"
-import {FaAngleLeft, FaAngleRight} from "react-icons/fa";
-import {useEffect, useState} from "react";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import OutcomeModal from "@/app/home/month-outcomes/components/modals/OutcomeModal";
-import {OutCome} from "@/types/OutCome";
-import {auth, db} from "@/firebase";
-import {getDocs, collection, query, doc, addDoc} from "firebase/firestore";
+import { OutCome } from "@/types/OutCome";
+import { auth, db } from "@/firebase";
+import { getDocs, collection, query, doc, addDoc } from "firebase/firestore";
+import { MdDelete, MdEdit } from "react-icons/md";
+import OutComePieChart from "./components/OutcomePieChart";
 
 const MonthOutcomesPage = () => {
 
@@ -56,7 +58,7 @@ const MonthOutcomesPage = () => {
 
 
                 if (date.getMonth() === month && date.getFullYear() === year) {
-                    setOutcomes((prev: any) => [...prev, {id: doc.id, ...outcome}])
+                    setOutcomes((prev: any) => [...prev, { id: doc.id, ...outcome }])
                 }
             })
         })
@@ -67,7 +69,7 @@ const MonthOutcomesPage = () => {
         outcomes.forEach((outcome) => {
             total += Number(outcome.amount)
         })
-        return total.toLocaleString('es-MX', {style: 'currency', currency: 'MXN'})
+        return total.toLocaleString('es-MX', { style: 'currency', currency: 'MXN' })
 
     }
 
@@ -78,7 +80,11 @@ const MonthOutcomesPage = () => {
     const parseDateOnlyDay = (date: string) => {
         const dateObj = new Date(date)
         return dateObj.getDate()
-
+    }
+    const parseDateOnlyNameOfDay = (date: string) => {
+        const dateObj = new Date(date)
+        const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
+        return days[dateObj.getDay()]
     }
 
     const sortOutcomesByDate = () => {
@@ -93,7 +99,7 @@ const MonthOutcomesPage = () => {
         <>
             {openOutcomeModal && <OutcomeModal show={openOutcomeModal} onClose={() => {
                 setOpenOutcomeModal(false)
-            }} setOutcome={setOutcomes}/>}
+            }} setOutcome={setOutcomes} />}
             <div className="flex flex-col">
                 <div className="flex flex-row mx-4 justify-end">
                     <button
@@ -105,13 +111,13 @@ const MonthOutcomesPage = () => {
                 </div>
                 <div className="flex flex-row justify-center my-8 gap-x-2 text-lg md:text-2xl">
                     <FaAngleLeft onClick={leftArrow}
-                                 className="my-auto w-6 h-6 cursor-pointer"/>
+                        className="my-auto w-6 h-6 cursor-pointer" />
                     <div className="underline font-bold ">
                         Gastos del mes de <span className="uppercase">{monthName(month)} {yearName(year)}</span>
                     </div>
                     <FaAngleRight
                         onClick={rightArrow}
-                        className="my-auto w-6 h-6 cursor-pointer"/>
+                        className="my-auto w-6 h-6 cursor-pointer" />
 
                 </div>
                 <div className="flex flex-row">
@@ -121,37 +127,49 @@ const MonthOutcomesPage = () => {
                     </div>
                 </div>
 
+                <div className="flex flex-col mt-4 gap-4">
+                    <div className="flex flex-row justify-center font-bold" >Categorias</div>
+                    <OutComePieChart outcomes={outcomes} />
+                </div>
+
 
                 <div className="flex flex-row mt-4">
                     <table className="table-auto w-full">
                         <thead>
-                        <tr>
-                            <th className="px-4 py-2">Día</th>
-                            <th className="px-4 py-2">Nombre</th>
-                            <th className="px-4 py-2">Monto</th>
-                            <th className="px-4 py-2">Acciones</th>
-                        </tr>
+                            <tr>
+                                <th className="px-2 py-2 text-sm border border-gray-400">Día</th>
+                                <th className="px-2 py-2 text-sm border border-gray-400">Nombre</th>
+                                <th className="px-2 py-2 text-sm border border-gray-400">Monto</th>
+                                <th className="px-2 py-2 text-sm border border-gray-400">Acciones</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {sortOutcomesByDate().map((outcome) => (
-                            <tr key={outcome.id}>
-                                <td className="border px-4 py-2">{parseDateOnlyDay(outcome.date)}</td>
-                                <td className="border px-4 py-2">
-                                    <div className="flex flex-col">
-                                        <span className="font-bold">{outcome.category}</span>
-                                       <span className="truncate">{outcome.name}</span>
-                                    </div>
-                                
-                                </td>
-                                <td className="border px-4 py-2">${(outcome.amount)}</td>
-                                <td className="border px-4 py-2">
-                                    <button className="bg-gray-900 text-white px-2 py-1 rounded">
-                                        ED
-                                    </button>
-                                    <button className="bg-red-600 text-white px-2 py-1 rounded">EL</button>
-                                </td>
-                            </tr>
-                        ))}
+                            {sortOutcomesByDate().map((outcome) => (
+                                <tr key={outcome.id}>
+                                    <td className="px-2 py-2 text-sm border border-gray-400 text-center ">
+                                        <div className="flex flex-col">
+                                            <span>{parseDateOnlyNameOfDay(outcome.date)}</span>
+                                            <span>{parseDateOnlyDay(outcome.date)}</span>
+                                        </div>
+                                    </td>
+                                    <td className="px-2 py-2 text-sm border border-gray-400 text-center">
+                                        <div className="flex flex-col">
+                                            <span className="font-bold">{outcome.category}</span>
+                                            <span className="truncate">{outcome.name}</span>
+                                        </div>
+
+                                    </td>
+                                    <td className="px-2 py-2 text-sm border border-gray-400 text-center">${(outcome.amount)}</td>
+                                    <td className="px-2 py-2 text-sm border border-gray-400 text-center">
+                                        <button className="bg-yellow-400 px-2 py-1 rounded mr-1">
+                                            <MdEdit className="text-white mx-auto w-5 h-5 " />
+                                        </button>
+                                        <button className="bg-red-600 text-white px-2 py-1 rounded ml-1">
+                                            <MdDelete className="text-white mx-auto w-5 h-5" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
