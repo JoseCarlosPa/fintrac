@@ -100,7 +100,6 @@ const OutComePieChart = ({ outcomes }: OutcomePieChartProps) => {
                 callbacks: {
                     label: function (context:any) {
                         const value = context.parsed;
-                        console.log('Value',context.parsed)
                         const label = context.label;
                         const total = context.dataset.data.reduce((a:any, b:any) => Number(a) + Number(b), 0);
                         const percentage = ((Number(value) / Number(total)) * 100).toFixed(2);
