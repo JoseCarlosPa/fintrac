@@ -1,9 +1,9 @@
 export interface ActivePassive {
-    id?: string | undefined;
-    name: string;
-    quantity: number;
-    type: string;
+    id?: string  ;
+    name: string ;
+    quantity: number ;
+    type: string  ;
     value: number ;
     missing: number ;
-    goal?: number | undefined ;
+    goal?: number  ;
 }

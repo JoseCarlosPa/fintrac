@@ -26,6 +26,7 @@ const AddNewActivePassive = ({show,onClose,activePassive,edit,setActivePassives}
     const [loading, setLoading] = useState(false)
 
     const onSave = async () => {
+        
         if(edit){
             auth.onAuthStateChanged(async (user) => {
                 if (user === null) return
@@ -70,14 +71,14 @@ const AddNewActivePassive = ({show,onClose,activePassive,edit,setActivePassives}
                         <label>Cantidad</label>
                         <input
                             value={payload.quantity}
-                            onChange={(e) => setPayload({...payload, quantity: Number(e.target.value)})}
+                            onChange={(e) => setPayload({...payload, quantity: parseInt(e.target.value)})}
                             type="number" className="border border-gray-300 p-1 rounded"/>
                     </div>
                     <div className="col-span-12 md:col-span-6 flex flex-col">
                         <label>Valor(Ahorita tengo)</label>
                         <input
                             value={payload.value}
-                            onChange={(e) => setPayload({...payload, value: Number(e.target.value)})}
+                            onChange={(e) => setPayload({...payload, value: parseInt(e.target.value)})}
                             type="number" className="border border-gray-300 p-1 rounded"/>
                     </div>
                     <div className="col-span-12 flex flex-col">
@@ -97,7 +98,7 @@ const AddNewActivePassive = ({show,onClose,activePassive,edit,setActivePassives}
                             <label>Faltante</label>
                             <input
                                 value={payload.missing}
-                                onChange={(e) => setPayload({...payload, missing: Number(e.target.value)})}
+                                onChange={(e) => setPayload({...payload, missing: parseInt(e.target.value)})}
                                 type="number" className="border border-gray-300 p-1 rounded"/>
                         </div>
                     }
@@ -106,7 +107,7 @@ const AddNewActivePassive = ({show,onClose,activePassive,edit,setActivePassives}
                           <label>Meta</label>
                           <input
                             value={payload.goal !== 0 ? payload.goal : ""}
-                            onChange={(e) => setPayload({...payload, goal: Number(e.target.value)})}
+                            onChange={(e) => setPayload({...payload, goal: parseInt(e.target.value)})}
                             type="number" className="border border-gray-300 p-1 rounded"/>
                       </div>
                     }
