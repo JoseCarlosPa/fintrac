@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import OutcomeModal from "@/app/home/month-outcomes/components/modals/OutcomeModal";
 import { OutCome } from "@/types/OutCome";
 import { auth, db } from "@/firebase";
-import { getDocs, collection, query, doc, addDoc } from "firebase/firestore";
+import { getDocs, collection, query, doc, addDoc, deleteDoc } from "firebase/firestore";
 import { MdDelete, MdEdit } from "react-icons/md";
 import OutComePieChart from "./components/OutcomePieChart";
+import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 const MonthOutcomesPage = () => {
 
@@ -14,6 +16,8 @@ const MonthOutcomesPage = () => {
     const [year, setYear] = useState(new Date().getFullYear())
     const [openOutcomeModal, setOpenOutcomeModal] = useState(false)
     const [outcomes, setOutcomes] = useState<OutCome[]>([])
+    const [editOutcome, setEditOutcome] = useState<boolean>(false)
+    const [selectedOutcome, setSelectedOutcome] = useState<OutCome | null>(null)
 
     const monthName = (month: number) => {
         const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
@@ -53,10 +57,8 @@ const MonthOutcomesPage = () => {
             outcomesSnapshot.forEach((doc) => {
                 const outcome = doc.data()
                 // Check if the day is 1rst of the month
-
+            
                 const date = new Date(outcome.date)
-
-
                 if (date.getMonth() === month && date.getFullYear() === year) {
                     setOutcomes((prev: any) => [...prev, { id: doc.id, ...outcome }])
                 }
@@ -79,12 +81,12 @@ const MonthOutcomesPage = () => {
 
     const parseDateOnlyDay = (date: string) => {
         const dateObj = new Date(date)
-        return dateObj.getDate()
+        return dateObj.getDate() + 1
     }
     const parseDateOnlyNameOfDay = (date: string) => {
         const dateObj = new Date(date)
         const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
-        return days[dateObj.getDay()]
+        return days[dateObj.getDay() + 1]
     }
 
     const sortOutcomesByDate = () => {
@@ -95,11 +97,40 @@ const MonthOutcomesPage = () => {
         })
     }
 
+    const deleteOutcome = async (id: string) => {
+        auth.onAuthStateChanged(async (user) => {
+            if (user === null) return
+            deleteDoc(doc(db, 'users', user.uid, 'outcomes', id)).then(() => {
+                setOutcomes(outcomes.filter((outcome) => outcome.id !== id))
+                toast.success('Gasto eliminado correctamente')
+            });
+        })
+    }
+
+
+    const askDeleteOutcome = (id: string) => {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Sí, bórralo!'
+        }).then((result:any) => {
+            if (result.isConfirmed) {
+                deleteOutcome(id)
+            }
+        })
+    }
+
     return (
         <>
             {openOutcomeModal && <OutcomeModal show={openOutcomeModal} onClose={() => {
                 setOpenOutcomeModal(false)
             }} setOutcome={setOutcomes} />}
+            {editOutcome && <OutcomeModal show={editOutcome} onClose={() => {
+                setEditOutcome(false)}} edit={true} outcome={selectedOutcome} setOutcome={setOutcomes} />}
             <div className="flex flex-col">
                 <div className="flex flex-row mx-4 justify-end">
                     <button
@@ -161,10 +192,17 @@ const MonthOutcomesPage = () => {
                                     </td>
                                     <td className="px-2 py-2 text-sm border border-gray-400 text-center">${(outcome.amount)}</td>
                                     <td className="px-2 py-2 text-sm border border-gray-400 text-center">
-                                        <button className="bg-yellow-400 px-2 py-1 rounded mr-1">
+                                        <button 
+                                            onClick={() => {
+                                                setEditOutcome(true)
+                                                setSelectedOutcome(outcome)
+                                            }}
+                                        className="bg-yellow-400 px-2 py-1 rounded mr-1">
                                             <MdEdit className="text-white mx-auto w-5 h-5 " />
                                         </button>
-                                        <button className="bg-red-600 text-white px-2 py-1 rounded ml-1">
+                                        <button
+                                            onClick={() => askDeleteOutcome(outcome.id)}
+                                         className="bg-red-600 text-white px-2 py-1 rounded ml-1">
                                             <MdDelete className="text-white mx-auto w-5 h-5" />
                                         </button>
                                     </td>

@@ -1,6 +1,6 @@
 import Modal from "@/app/componentes/Modal";
 import {auth, db} from "@/firebase";
-import {getDocs, collection, addDoc} from "firebase/firestore";
+import {getDocs, collection, addDoc, updateDoc, doc} from "firebase/firestore";
 import {useEffect, useState} from "react";
 import {toast} from "sonner";
 
@@ -18,11 +18,11 @@ const OutcomeModal = ({show,onClose,edit,setOutcome,outcome}:OutcomeModalProps) 
     const [creditCards, setCreditCards] = useState<any>([])
     const [loading, setLoading] = useState(false)
     const [payload, setPayload] = useState<any>({
-        name: '',
-        category: '',
-        amount: 0,
-        date: '',
-        card: ''
+        name: edit? outcome?.name :'',
+        category: edit? outcome?.category :'',
+        amount: edit? outcome?.amount :'',
+        date: edit? outcome?.date :'',
+        card: edit? outcome?.card :'',
     })
 
     const getCreditCards = () => {
@@ -40,17 +40,40 @@ const OutcomeModal = ({show,onClose,edit,setOutcome,outcome}:OutcomeModalProps) 
     }
 
     const saveOutcome = () => {
-        auth.onAuthStateChanged(async (user) => {
-            if (user === null) return
-            const outcomesRef = collection(db,'users',user.uid,'outcomes')
-            setLoading(true)
-            await addDoc(outcomesRef,payload).then((doc:any)=>{
-                setOutcome((prev: any) => [...prev, {id: doc.id, ...payload}])
-                toast.success(`Gasto agregado correctamente`)
+        if(edit){
+            auth.onAuthStateChanged(async (user) => {
+                if (user === null) return
+                const outcomesRef = doc(db,'users',user.uid,'outcomes',outcome.id)
+                setLoading(true)
+                await updateDoc(outcomesRef,payload)
+                setOutcome((prev: any) => {
+                    return prev.map((prevOutcome:any) => {
+                        if(prevOutcome.id === outcome.id){
+                            return {...prevOutcome, ...payload}
+                        }
+                        return prevOutcome
+                    })
+                })
+                setLoading(false)
+                onClose()
+                toast.success(`Gasto actualizado correctamente`)
+
             })
-            setLoading(false)
-            onClose()
-        })
+
+        }else{
+            auth.onAuthStateChanged(async (user) => {
+                if (user === null) return
+                const outcomesRef = collection(db,'users',user.uid,'outcomes')
+                setLoading(true)
+                await addDoc(outcomesRef,payload).then((doc:any)=>{
+                    setOutcome((prev: any) => [...prev, {id: doc.id, ...payload}])
+                    toast.success(`Gasto agregado correctamente`)
+                })
+                setLoading(false)
+                onClose()
+            })
+        }
+       
     }
 
 
@@ -75,7 +98,7 @@ const OutcomeModal = ({show,onClose,edit,setOutcome,outcome}:OutcomeModalProps) 
                 <div className="flex flex-col w-1/2 p-4">
                     <label htmlFor="category">Categoria</label>
                     <input type="text" id="category" className="border p-2 rounded"
-                           value={payload.category}
+                           value={edit ? outcome?.category : payload.category}
                             onChange={(e) => setPayload({...payload, category: e.target.value})}
                            placeholder={edit ? outcome?.category : 'Categoria'}
                            defaultValue={edit ? outcome?.category : ''}/>
@@ -85,7 +108,7 @@ const OutcomeModal = ({show,onClose,edit,setOutcome,outcome}:OutcomeModalProps) 
                 <div className="flex flex-col w-1/2 p-4">
                     <label htmlFor="amount">Monto</label>
                     <input type="number" id="amount"
-                            value={payload.amount}
+                           value={payload.amount}
                             onChange={(e) => setPayload({...payload, amount: e.target.value})}
                             placeholder={edit ? outcome?.amount : 'Monto'}
                            className="border p-2 rounded"
@@ -94,6 +117,7 @@ const OutcomeModal = ({show,onClose,edit,setOutcome,outcome}:OutcomeModalProps) 
                 <div className="flex flex-col w-1/2 p-4">
                     <label htmlFor="amount">Tarjeta(?)</label>
                     <select
+                    value={payload.card}
                         onChange={(e) => setPayload({...payload, card: e.target.value})}
                         className="border p-2 rounded">
                         <option value="">Seleccionar tarjeta</option>
