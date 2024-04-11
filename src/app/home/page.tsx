@@ -123,12 +123,13 @@ const Home = () => {
       </div>
       <div className="mt-8 grid grid-cols-12 gap-x-6 gap-y-6">
         <div className="col-span-12 md:col-span-6 bg-white rounded shadow-md p-4">
-          <div className="flex flex-row justify-center h-72 ">
+          <div className="flex flex-col justify-center h-full ">
+            <span className="font-bold text-center mt-8">Gastos presupuestados</span>
             <PieChart/>
           </div>
         </div>
         <div className="col-span-12 md:col-span-6  bg-white rounded shadow-md p-4">
-          <div className="flex flex-row justify-center ">
+          <div className="flex flex-row justify-center h-full">
             <VerticalBarChart/>
           </div>
 

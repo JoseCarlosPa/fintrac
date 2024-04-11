@@ -78,10 +78,26 @@ const PieChart = () => {
     loadData()
   }, []);
 
+  const options = {
+    plugins: {
+        tooltip: {
+            callbacks: {
+                label: function (context:any) {
+                    const value = context.parsed;
+                    const label = context.label;
+                    const total = context.dataset.data.reduce((a:any, b:any) => Number(a) + Number(b), 0);
+                    const percentage = ((Number(value) / Number(total)) * 100).toFixed(2);
+                
+                    return `${label}: ${percentage}% - $${value}`;
+                }
+            }
+        }
+    }
+};
 
   return(
       <div className="flex flex-row mx-auto my-auto">
-        <Pie data={data} />
+        <Pie data={data} options={options} />
       </div>
   );
 

@@ -121,7 +121,9 @@ const VerticalBarChart = () => {
 
 
   return(
-    <Bar options={options} data={data} />
+  
+    <Bar options={options} data={data} className="h-full" />
+  
   );
 
 }
