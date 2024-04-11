@@ -1,4 +1,4 @@
-import {TbBeach, TbDiscount2, TbWorldDollar} from "react-icons/tb";
+import {TbBeach, TbDiscount2, TbUserDollar, TbWorldDollar} from "react-icons/tb";
 import {PiCoinsDuotone } from "react-icons/pi";
 import {BsTable} from "react-icons/bs";
 
@@ -47,6 +47,14 @@ const ToolsPage = () => {
           <div className="mx-auto my-auto flex flex-col">
             <TbWorldDollar   className="w-8 h-8 text-blue-500 mx-auto my-auto"/>
             <span className="text-center font-bold text-lg">Calculadora de Aguinaldo</span>
+          </div>
+        </a>
+        <a
+            href={"/home/tools/investor-test"}
+            className="col-span-12 md:col-span-4 bg-gray-100 shadow rounded-md px-8 py-12 hover:bg-white hover:shadow-lg transition">
+          <div className="mx-auto my-auto flex flex-col">
+          <TbUserDollar  className="w-8 h-8 text-orange-500 mx-auto my-auto"/>
+            <span className="text-center font-bold text-lg">¿Que tipo de inversionista eres?</span>
           </div>
         </a>
       </div>
