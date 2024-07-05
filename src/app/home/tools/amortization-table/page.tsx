@@ -1,6 +1,6 @@
 "use client"
 import {useState} from "react";
-import * as XLSX from 'xlsx';
+//import * as XLSX from 'xlsx';
 
 type AmortizationRow = {
   month: number;
@@ -43,10 +43,10 @@ const AmortizationTablePage = () => {
   };
 
   const exportToExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(amortizationTable);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Amortization Table');
-    XLSX.writeFile(wb, 'amortization_table.xlsx');
+    //const ws = XLSX.utils.json_to_sheet(amortizationTable);
+    //const wb = XLSX.utils.book_new();
+    //XLSX.utils.book_append_sheet(wb, ws, 'Amortization Table');
+    // XLSX.writeFile(wb, 'amortization_table.xlsx');
   };
 
   return (
