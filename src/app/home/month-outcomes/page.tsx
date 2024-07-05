@@ -9,6 +9,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import OutComePieChart from "./components/OutcomePieChart";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
+import OutcomesPerDay from "@/app/home/month-outcomes/components/OutcomesPerDay";
 
 const MonthOutcomesPage = () => {
 
@@ -158,17 +159,25 @@ const MonthOutcomesPage = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col mt-4 gap-4">
-                    <div className="flex flex-row justify-center font-bold" >Categorias</div>
-                    <OutComePieChart outcomes={outcomes} />
+                <div className="flex flex-col md:flex-row gap-4 justify-center">
+                    <div className="flex flex-col mt-4 gap-4 w-full">
+                        <div className="flex flex-row justify-center font-bold">Categorias</div>
+                        <OutComePieChart outcomes={outcomes}/>
+                    </div>
+                    <div className="flex flex-col mt-4 gap-4 w-full">
+                        <div className="flex flex-row justify-center font-bold">Gastos por Dia</div>
+                        <div className="w-full">
+                            <OutcomesPerDay outcomes={outcomes}/>
+                        </div>
+                    </div>
                 </div>
 
 
                 <div className="flex flex-row mt-4">
                     <table className="table-auto w-full">
                         <thead>
-                            <tr>
-                                <th className="px-2 py-2 text-sm border border-gray-400">Día</th>
+                        <tr>
+                            <th className="px-2 py-2 text-sm border border-gray-400">Día</th>
                                 <th className="px-2 py-2 text-sm border border-gray-400">Nombre</th>
                                 <th className="px-2 py-2 text-sm border border-gray-400">Monto</th>
                                 <th className="px-2 py-2 text-sm border border-gray-400">Acciones</th>
