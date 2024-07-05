@@ -4,6 +4,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import {db, auth} from "@/firebase";
 import {collection, getDocs} from "@firebase/firestore";
+import {doc, getDoc, orderBy, query} from "firebase/firestore";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -37,11 +38,36 @@ const PieChart = () => {
   }
 
   const loadData= async () => {
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(async (user) => {
       if (user === null) return
       const budgetsArray = collection(db, "users", user.uid, "budgets")
       const budgetsSnapshot = getDocs(budgetsArray)
+      const userRef = doc(db, 'users', user.uid)
+      const userSnapshot = await getDoc(userRef)
+      const userData = userSnapshot.data()
+
       budgetsSnapshot.then((querySnapshot) => {
+
+        // add to data the data a new labalbe called "sobrantes" witch will be the (userData.data().fortnight * 2) - the sum of all the budgets
+
+        setData((prevData: any) => {
+          return {
+            ...prevData,
+            labels: [...prevData.labels, "Sobrantes"],
+            datasets: [
+              {
+                label: '',
+                data: [...prevData.datasets[0].data, (userData?.fortnight * 2) - querySnapshot.docs.reduce((acc, doc) => acc + doc.data().amount, 0)],
+                backgroundColor: [
+                  ...prevData.datasets[0].backgroundColor,
+                  getRandomRGBColor(),
+                ],
+                borderWidth: 1,
+              },
+            ],
+          };
+        })
+
         querySnapshot.forEach((doc) => {
           setData((prevData: any) => {
             return {
@@ -66,7 +92,6 @@ const PieChart = () => {
                 },
               ],
             };
-
           });
         });
       });

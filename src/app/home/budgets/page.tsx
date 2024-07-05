@@ -84,7 +84,6 @@ const BudgetsPage = () => {
         return firstFortnight.reduce((acc, budget) => {
             return acc + budget.amount;
         }, 0);
-
     }
 
     const handleIsPaid = async (budget: Budget) => {

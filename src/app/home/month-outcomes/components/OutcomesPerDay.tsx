@@ -39,7 +39,7 @@ const OutcomesPerDay = ({outcomes}: OutcomesPerDayProps) => {
       let total = 0
       outcomes.forEach((outcome) => {
         const date = new Date(outcome.date)
-        if (date.getDate() === i) {
+        if (date.getDate() + 1 === i) {
           total += Number(outcome.amount)
         }
       })
