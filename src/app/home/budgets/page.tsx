@@ -123,7 +123,7 @@ const BudgetsPage = () => {
 
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-8 px-2 md:px-8 py-6 bg-gray-50 min-h-screen rounded-lg shadow">
             {open && <BudgetModal setBudgets={setBudgets} creditCards={creditCards} open={open} onClose={() => {
                 setOpen(false)
             }}/>}
@@ -132,97 +132,102 @@ const BudgetsPage = () => {
                 setOpenGear(false)
             }} show={openGear}/>}
 
-            <div className="flex flex-row justify-end gap-x-4 mt-4">
+            <div className="flex flex-row justify-end gap-x-4 mt-4 mb-6">
                 <button
                     onClick={() => setOpenGear(true)}
-                    className="bg-gray-900 hover:bg-gray-800 text-white rounded-md px-4 py-2"
+                    className="bg-gray-900 hover:bg-gray-800 text-white rounded-md px-4 py-2 shadow transition hover:scale-105 flex items-center gap-2"
                 >
                     <FaGear className="text-white w-6 h-6"/>
+                    <span className="hidden md:inline">Configuración</span>
                 </button>
                 <button
                     onClick={() => setOpen(true)}
-                    className="bg-gray-900 hover:bg-gray-800 text-white rounded-md px-4 py-2"
+                    className="bg-blue-700 hover:bg-blue-800 text-white rounded-md px-4 py-2 shadow transition hover:scale-105"
                 >
                     + Agregar presupuesto
                 </button>
             </div>
-            <span className="font-bold my-4">Cálculo por Quincena y Mes</span>
-            <div className="grid grid-cols-12 gap-4">
-                <div className="col-span-12 md:col-span-4 flex flex-col bg-gray-100 p-4 shadow rounded-md w-full h-24">
-          <span
-              className="my-auto"><b>1ra Quincena:</b> {parseFloat(String(calculateFirstFortnight(1, 15))).toLocaleString('es-MX', {
+            <span className="font-bold my-2 text-lg text-gray-700">Cálculo por Quincena y Mes</span>
+            <div className="grid grid-cols-12 gap-6">
+                <div className="col-span-12 md:col-span-4 flex flex-col bg-white p-6 shadow-lg rounded-xl w-full h-28 border border-blue-100 hover:shadow-xl transition">
+          <span className="my-auto text-blue-800 font-semibold text-base">
+            <b>1ra Quincena:</b> {parseFloat(String(calculateFirstFortnight(1, 15))).toLocaleString('es-MX', {
               style: 'currency',
               currency: 'MXN'
-          })}</span>
-                    <span
-                        className=" my-auto"><b>Sobran:</b> {(parseFloat(user?.fortnight) - parseFloat(String(calculateFirstFortnight(1, 15)))).toLocaleString('es-MX', {
+          })}
+          </span>
+                    <span className="my-auto text-green-700 font-medium text-sm">
+            <b>Sobran:</b> {(parseFloat(user?.fortnight) - parseFloat(String(calculateFirstFortnight(1, 15)))).toLocaleString('es-MX', {
                         style: 'currency',
                         currency: 'MXN'
-                    })}</span>
+                    })}
+          </span>
                 </div>
-                <div className="col-span-12 md:col-span-4 flex flex-col bg-gray-100 p-4 shadow rounded-md w-full h-24">
-          <span
-              className="my-auto"><b>2ra Quincena:</b> {parseFloat(String(calculateFirstFortnight(16, 31))).toLocaleString('es-MX', {
+                <div className="col-span-12 md:col-span-4 flex flex-col bg-white p-6 shadow-lg rounded-xl w-full h-28 border border-blue-100 hover:shadow-xl transition">
+          <span className="my-auto text-blue-800 font-semibold text-base">
+            <b>2da Quincena:</b> {parseFloat(String(calculateFirstFortnight(16, 31))).toLocaleString('es-MX', {
               style: 'currency',
               currency: 'MXN'
-          })}</span>
-                    <span
-                        className="my-auto"><b>Sobran:</b> {(parseFloat(user?.fortnight) - parseFloat(String(calculateFirstFortnight(16, 31)))).toLocaleString('es-MX', {
+          })}
+          </span>
+                    <span className="my-auto text-green-700 font-medium text-sm">
+            <b>Sobran:</b> {(parseFloat(user?.fortnight) - parseFloat(String(calculateFirstFortnight(16, 31)))).toLocaleString('es-MX', {
                         style: 'currency',
                         currency: 'MXN'
-                    })}</span>
-                </div>
-
-                <div className="col-span-12 md:col-span-4 flex flex-col bg-gray-100 p-4 shadow rounded-md w-full h-24">
-          <span
-              className="my-auto"><b>Mes:</b> {parseFloat(String(calculateFirstFortnight(1, 31))).toLocaleString('es-MX', {
-              style: 'currency',
-              currency: 'MXN'
-          })}</span>
-                    <span
-                        className="my-auto"><b>Sobran:</b> {((parseFloat(user?.fortnight) * 2) - parseFloat(String(calculateFirstFortnight(1, 31)))).toLocaleString('es-MX', {
-                        style: 'currency',
-                        currency: 'MXN'
-                    })}</span>
+                    })}
+          </span>
                 </div>
 
+                <div className="col-span-12 md:col-span-4 flex flex-col bg-white p-6 shadow-lg rounded-xl w-full h-28 border border-blue-100 hover:shadow-xl transition">
+          <span className="my-auto text-blue-800 font-semibold text-base">
+            <b>Mes:</b> {parseFloat(String(calculateFirstFortnight(1, 31))).toLocaleString('es-MX', {
+              style: 'currency',
+              currency: 'MXN'
+          })}
+          </span>
+                    <span className="my-auto text-green-700 font-medium text-sm">
+            <b>Sobran:</b> {((parseFloat(user?.fortnight) * 2) - parseFloat(String(calculateFirstFortnight(1, 31)))).toLocaleString('es-MX', {
+                        style: 'currency',
+                        currency: 'MXN'
+                    })}
+          </span>
+                </div>
             </div>
             <div className="flex flex-row mt-12">
-                <table className="w-full">
-                    <thead>
-                    <tr>
-                        <th className="px-2 py-2 text-sm border border-gray-400">Nombre</th>
-                        <th className="px-2 py-2 text-sm border border-gray-400">Monto</th>
-                        <th className="px-2 py-2 text-sm border border-gray-400">Fecha de pago</th>
-                        <th className="px-2 py-2 text-sm border border-gray-400">Pagado</th>
-                        <th className="px-2 py-2 text-sm border border-gray-400 hidden md:block">Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {orderedBudgets().map((budget: Budget, index: number) => (
-                        <BudgetTable budget={budget} index={index} handleIsPaid={handleIsPaid} key={budget.id}
-                                     deleteBudget={deleteBudget} setBudgets={setBudgets}/>
-                    ))}
-
-                    <tr>
-                        <td className="px-2 py-2 text-sm border border-gray-400">Total</td>
-                        <td className="px-2 py-2 text-sm border border-gray-400">
-                            {calculateTotal().toLocaleString('es-MX', {
-                                style: 'currency',
-                                currency: 'MXN'
-                            })
-                            }
-                        </td>
-                        <td className=" px-2 py-2 text-sm border border-gray-400"></td>
-                        <td className=" px-2 py-2 text-sm border border-gray-400"></td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div className="w-full overflow-x-auto rounded-xl shadow-lg bg-white border border-gray-200">
+                    <table className="w-full min-w-[700px]">
+                        <thead>
+                        <tr className="bg-blue-100">
+                            <th className="px-2 py-3 text-sm border-b border-gray-300 text-blue-900">Nombre</th>
+                            <th className="px-2 py-3 text-sm border-b border-gray-300 text-blue-900">Monto</th>
+                            <th className="px-2 py-3 text-sm border-b border-gray-300 text-blue-900">Fecha de pago</th>
+                            <th className="px-2 py-3 text-sm border-b border-gray-300 text-blue-900">Pagado</th>
+                            <th className="px-2 py-3 text-sm border-b border-gray-300 text-blue-900 hidden md:table-cell">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {orderedBudgets().map((budget: Budget, index: number) => (
+                            <BudgetTable budget={budget} index={index} handleIsPaid={handleIsPaid} key={budget.id}
+                                         deleteBudget={deleteBudget} setBudgets={setBudgets}/>
+                        ))}
+                        <tr className="bg-blue-50 font-bold">
+                            <td className="px-2 py-2 text-sm border-t border-gray-300">Total</td>
+                            <td className="px-2 py-2 text-sm border-t border-gray-300">
+                                {calculateTotal().toLocaleString('es-MX', {
+                                    style: 'currency',
+                                    currency: 'MXN'
+                                })}
+                            </td>
+                            <td className="px-2 py-2 text-sm border-t border-gray-300"></td>
+                            <td className="px-2 py-2 text-sm border-t border-gray-300"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-
         </div>
     );
 }
 
 export default BudgetsPage
+

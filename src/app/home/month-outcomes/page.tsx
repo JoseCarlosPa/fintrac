@@ -143,82 +143,99 @@ const MonthOutcomesPage = () => {
                 </div>
                 <div className="flex flex-row justify-center my-8 gap-x-2 text-lg md:text-2xl">
                     <FaAngleLeft onClick={leftArrow}
-                        className="my-auto w-6 h-6 cursor-pointer" />
-                    <div className="underline font-bold ">
-                        Gastos del mes de <span className="uppercase">{monthName(month)} {yearName(year)}</span>
+                        className="my-auto w-8 h-8 cursor-pointer text-blue-700 hover:text-blue-900 transition-colors" />
+                    <div className="flex flex-col items-center">
+                        <span className="text-3xl md:text-4xl font-extrabold text-blue-800 drop-shadow-sm tracking-wide mb-1 flex items-center gap-2">
+                            <svg className="w-7 h-7 text-blue-400 inline-block" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 0V4m0 8v8m8-8a8 8 0 11-16 0 8 8 0 0116 0z" /></svg>
+                            Gastos del mes de <span className="uppercase ml-2">{monthName(month)} {yearName(year)}</span>
+                        </span>
+                        <span className="text-base text-blue-500 font-medium">¡Lleva el control de tus finanzas fácilmente!</span>
                     </div>
                     <FaAngleRight
                         onClick={rightArrow}
-                        className="my-auto w-6 h-6 cursor-pointer" />
-
+                        className="my-auto w-8 h-8 cursor-pointer text-blue-700 hover:text-blue-900 transition-colors" />
                 </div>
-                <div className="flex flex-row">
-                    <div className="bg-white rounded shadow  w-full md:w-60 p-4 mx-4 flex flex-col">
-                        <span className="font-bold text-lg">Total de gastos</span>
-                        <span className="text-lg">{calculateTotalOutcomes()}</span>
+                <div className="flex flex-row justify-end items-center gap-4 mb-2 px-4">
+                    <div className="bg-blue-100 text-blue-800 font-bold rounded-lg px-4 py-2 shadow border border-blue-200 flex items-center gap-2">
+                        <span>Total del mes:</span>
+                        <span className="font-mono text-lg">{calculateTotalOutcomes()}</span>
                     </div>
                 </div>
-
-                <div className="flex flex-col md:flex-row gap-4 justify-center">
-                    <div className="flex flex-col mt-4 gap-4 w-full">
-                        <div className="flex flex-row justify-center font-bold">Categorias</div>
+                <div className="flex flex-col md:flex-row gap-4 justify-center mt-6">
+                    <div className="flex flex-col w-full md:w-1/2 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow p-4">
+                        <div className="flex flex-row justify-center items-center gap-2 mb-2">
+                            <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17v-2a4 4 0 018 0v2m-4-4a4 4 0 100-8 4 4 0 000 8zm0 0v4m0 0v4" /></svg>
+                            <span className="font-bold text-blue-800 text-lg">Categorías</span>
+                        </div>
                         <OutComePieChart outcomes={outcomes}/>
                     </div>
-                    <div className="flex flex-col mt-4 gap-4 w-full">
-                        <div className="flex flex-row justify-center font-bold">Gastos por Dia</div>
-                        <div className="w-full">
-                            <OutcomesPerDay outcomes={outcomes}/>
+                    <div className="flex flex-col w-full md:w-1/2 bg-gradient-to-br from-blue-50 to-blue-100  rounded-xl shadow p-4">
+                        <div className="flex flex-row justify-center items-center gap-2 mb-2">
+                            <svg className="w-6 h-6 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 10h2l1 2h13l1-2h2M5 10V6a2 2 0 012-2h10a2 2 0 012 2v4" /></svg>
+                            <span className="font-bold text-green-800 text-lg">Gastos por Día</span>
                         </div>
+                        <OutcomesPerDay outcomes={outcomes}/>
                     </div>
                 </div>
 
 
                 <div className="flex flex-row mt-4">
-                    <table className="table-auto w-full">
-                        <thead>
-                        <tr>
-                            <th className="px-2 py-2 text-sm border border-gray-400">Día</th>
-                                <th className="px-2 py-2 text-sm border border-gray-400">Nombre</th>
-                                <th className="px-2 py-2 text-sm border border-gray-400">Monto</th>
-                                <th className="px-2 py-2 text-sm border border-gray-400">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {sortOutcomesByDate().map((outcome) => (
-                                <tr key={outcome.id}>
-                                    <td className="px-2 py-2 text-sm border border-gray-400 text-center ">
-                                        <div className="flex flex-col">
-                                            <span>{parseDateOnlyNameOfDay(outcome.date)}</span>
-                                            <span>{parseDateOnlyDay(outcome.date)}</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-2 py-2 text-sm border border-gray-400 text-center">
-                                        <div className="flex flex-col">
-                                            <span className="font-bold">{outcome.category}</span>
-                                            <span className="truncate">{outcome.name}</span>
-                                        </div>
-
-                                    </td>
-                                    <td className="px-2 py-2 text-sm border border-gray-400 text-center">${(outcome.amount)}</td>
-                                    <td className="px-2 py-2 text-sm border border-gray-400 text-center">
-                                        <button 
-                                            onClick={() => {
-                                                setEditOutcome(true)
-                                                setSelectedOutcome(outcome)
-                                            }}
-                                        className="bg-yellow-400 px-2 py-1 rounded mr-1">
-                                            <MdEdit className="text-white mx-auto w-5 h-5 " />
-                                        </button>
-                                        <button
-                                            onClick={() => askDeleteOutcome(outcome.id)}
-                                         className="bg-red-600 text-white px-2 py-1 rounded ml-1">
-                                            <MdDelete className="text-white mx-auto w-5 h-5" />
-                                        </button>
-                                    </td>
+                    <div className="overflow-x-auto w-full">
+                        <table className="min-w-full rounded-lg shadow-lg bg-white">
+                            <thead>
+                                <tr className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
+                                    <th className="px-4 py-3 text-sm font-semibold border-b border-blue-200 text-center">Día</th>
+                                    <th className="px-4 py-3 text-sm font-semibold border-b border-blue-200 text-center">Nombre</th>
+                                    <th className="px-4 py-3 text-sm font-semibold border-b border-blue-200 text-center">Monto</th>
+                                    <th className="px-4 py-3 text-sm font-semibold border-b border-blue-200 text-center">Acciones</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {sortOutcomesByDate().map((outcome, idx) => (
+                                    <tr key={outcome.id} className={idx % 2 === 0 ? 'bg-white' : 'bg-blue-50 hover:bg-blue-100 transition-colors'}>
+                                        <td className="px-4 py-3 text-sm border-b border-blue-100 text-center align-middle">
+                                            <div className="flex flex-col items-center">
+                                                <span className="text-xs text-gray-500">{parseDateOnlyNameOfDay(outcome.date)}</span>
+                                                <span className="text-lg font-bold text-blue-700">{parseDateOnlyDay(outcome.date)}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-3 text-sm border-b border-blue-100 text-center align-middle">
+                                            <div className="flex flex-col items-center">
+                                                <span className="font-bold text-blue-800">{outcome.category}</span>
+                                                <span className="truncate max-w-[120px] text-gray-700">{outcome.name}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-3 text-sm border-b border-blue-100 text-center align-middle font-mono  rounded">
+                                            <span className="text-green-600 font-semibold">$ {outcome.amount.toLocaleString('es-MX', { style: 'currency', currency: 'MXN' })}</span>
+                                        </td>
+                                        <td className="px-4 py-3 text-sm border-b border-blue-100 text-center align-middle">
+                                            <div className="flex justify-center gap-2">
+                                                <button
+                                                    onClick={() => {
+                                                        setEditOutcome(true)
+                                                        setSelectedOutcome(outcome)
+                                                    }}
+                                                    className="bg-yellow-400 hover:bg-yellow-500 transition-colors px-2 py-1 rounded shadow focus:outline-none focus:ring-2 focus:ring-yellow-300 group relative flex items-center"
+                                                    title="Editar">
+                                                    <MdEdit className="text-white mx-auto w-5 h-5 group-hover:scale-110 transition-transform" />
+                                                    <span className="ml-1 hidden md:inline text-xs text-white">Editar</span>
+                                                    <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-xs bg-black text-white rounded px-1 py-0.5 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity">Editar</span>
+                                                </button>
+                                                <button
+                                                    onClick={() => askDeleteOutcome(outcome.id)}
+                                                    className="bg-red-600 hover:bg-red-700 transition-colors text-white px-2 py-1 rounded shadow focus:outline-none focus:ring-2 focus:ring-red-300 group relative flex items-center"
+                                                    title="Eliminar">
+                                                    <MdDelete className="text-white mx-auto w-5 h-5 group-hover:scale-110 transition-transform" />
+                                                    <span className="ml-1 hidden md:inline text-xs text-white">Eliminar</span>
+                                                    <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-xs bg-black text-white rounded px-1 py-0.5 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity">Eliminar</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </>

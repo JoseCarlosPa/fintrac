@@ -48,29 +48,33 @@ const BudgetTable = ({budget,index,handleIsPaid,deleteBudget,setBudgets}:BudgetT
             {openEditModal && <EditBudgetModal setBudgets={setBudgets} budget={budget} show={openEditModal} onClose={()=>{setOpenEditModal(false)}}/>}
             {openActionsModal && <ActionsModal setOpenEditModal={setOpenEditModal} show={openActionsModal} onClose={()=>{setOpenActionsModal(false)}} budget={budget} deleteBudget={deleteBudget}/>}
 
-            <tr key={budget.id} className={`${index % 2 == 0 ? 'bg-gray-100' : 'bg-gray-200'}`}>
+            <tr
+                key={budget.id}
+                className={`group transition-all duration-150 ${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'} hover:bg-blue-100 hover:shadow-md`}
+            >
                 <td
                     onClick={() => setOpenActionsModal(true)}
-                    className="px-2 py-2 text-sm border border-gray-400 text-blue-700 md:text-gray-700">{budget?.name}</td>
-                <td className=" px-2 py-2 text-sm border border-gray-400">{(budget?.amount)?.toLocaleString('es-MX', {
+                    className="px-3 py-2 text-sm border-b border-gray-200 text-blue-800 font-medium cursor-pointer group-hover:underline group-hover:text-blue-900 transition"
+                >{budget?.name}</td>
+                <td className="px-3 py-2 text-sm border-b border-gray-200 text-gray-700 font-semibold">{(budget?.amount)?.toLocaleString('es-MX', {
                     style: 'currency',
                     currency: 'MXN'
-
                 })}</td>
-                <td className=" px-2 py-2 text-sm border border-gray-400">{`${budget.pay_date}/${monthAndYear()}`}</td>
-                <td className=" px-2 py-2 text-sm border border-gray-400 text-center">
+                <td className="px-3 py-2 text-sm border-b border-gray-200 text-gray-600">{`${budget.pay_date}/${monthAndYear()}`}</td>
+                <td className="px-3 py-2 text-sm border-b border-gray-200 text-center">
                     <input
                         onChange={() => {
                             handleIsPaid(budget)
                         }}
-                        className={`form-checkbox h-5 w-5 text-gray-600`}
+                        className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 transition"
                         checked={budget?.paid} type="checkbox"/>
                 </td>
-                <td className="px-2 py-2 text-sm border border-gray-400 text-center hidden md:block">
+                <td className="px-3 py-2 text-sm border-b border-gray-200 text-center hidden md:table-cell">
                     <div className="flex flex-row gap-x-2 justify-center">
                         <button
                             onClick={() => setOpenEditModal(true)}
-                            className="bg-yellow-500 rounded p-1 hover:bg-yellow-600">
+                            className="bg-yellow-400 hover:bg-yellow-500 rounded p-1 transition shadow-sm border border-yellow-300"
+                        >
                             <MdEdit className="w-4 h-4 text-white mx-auto"/>
                         </button>
                         <button
